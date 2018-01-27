@@ -3,6 +3,15 @@ source $ZPLUG_HOME/init.zsh
 
 isOSX="[[ $OSTYPE == *darwin* ]]"
 isLinux="[[ $OSTYPE == *linux* ]]"
+isDocker="" 
+if [[ $isLinux == True ]] ; then
+    if [[ ! $(cat /proc/1/sched | head -n 1 | grep init) ]]; then 
+        isDocker=True
+    else 
+        isDocker=False
+    fi
+fi
+
 
 zplug "lib/clipboard", from:oh-my-zsh
 zplug "lib/git", from:oh-my-zsh
@@ -14,18 +23,26 @@ zplug "lib/compfix", from:oh-my-zsh, defer:0
 zplug "lib/completion", from:oh-my-zsh, defer:0
 zplug "plugins/git", from:oh-my-zsh, if:"which git", defer:0
 zplug "plugins/gpg-agent", from:oh-my-zsh
-zplug "plugins/rsync", from:oh-my-zsh
+#zplug "plugins/rsync", from:oh-my-zsh, defer:5
 zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:0
-zplug "plugins/sublime", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh, defer:0
-zplug "plugins/docker-compose", from:oh-my-zsh, defer:0
-zplug "plugins/yarn", from:oh-my-zsh, defer:0
+#zplug "plugins/sublime", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh, if:!${isDocker} , defer:0
+zplug "plugins/docker-compose", from:oh-my-zsh, if:!${isDocker} defer:0
+#zplug "plugins/yarn", from:oh-my-zsh, defer:0
 zplug "plugins/common-aliases", from:oh-my-zsh, defer:0
 zplug "plugins/brew", from:oh-my-zsh, if:$isOSX
 zplug "plugins/osx", from:oh-my-zsh, if:$isOSX, defer:0
 zplug "plugins/debian", from:oh-my-zsh, if:$isLinux
 zplug "rupa/z", use:z.sh, defer:0
 zplug "rimraf/k", use:k.sh
+
+zplug "plugins/wd", from:oh-my-zsh, defer:0
+#zplug "plugins/colored-man-pages", from:oh-my-zsh, defer:0
+#zplug "plugins/colorize", from:oh-my-zsh, defer:0
+#zplug "plugins/extract", from:oh-my-zsh, defer:0
+#zplug "plugins/gradle", from:oh-my-zsh, defer:0
+zplug "plugins/kubectl", from:oh-my-zsh, defer:0
+
 
 zplug "~/.zsh", from:local
 zplug "~/.zsh", from:local, as:theme
