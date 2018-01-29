@@ -71,8 +71,8 @@ export MANPATH="/usr/local/man:$MANPATH"
 if ! zplug check; then
     #printf "Install? [y/N]: "
     #if read -q; then
-        echo; zplug install
-    fi
+    echo; zplug install
+    #fi
 fi
 
 unsetopt cdable_vars
