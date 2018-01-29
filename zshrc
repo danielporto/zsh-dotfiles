@@ -69,8 +69,8 @@ export MANPATH="/usr/local/man:$MANPATH"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
-    printf "Install? [y/N]: "
-    if read -q; then
+    #printf "Install? [y/N]: "
+    #if read -q; then
         echo; zplug install
     fi
 fi
