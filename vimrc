@@ -9,8 +9,8 @@ Plug 'kovetskiy/sxhkd-vim'
 Plug 'chrisbra/Colorizer'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Raimondi/delimitMate'
-Plug 'bling/vim-airline'
 Plug 'mhartington/oceanic-next'
+Plug 'bling/vim-airline'
 Plug 'evanmiller/nginx-vim-syntax'
 call plug#end()
 
@@ -65,7 +65,6 @@ set tabstop=2
 set shiftwidth=2
 
 set t_Co=256
-colorscheme OceanicNext
+colorscheme elflord
 set background=dark
 
-let g:airline_theme='oceanicnext'
