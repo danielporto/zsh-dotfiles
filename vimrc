@@ -9,13 +9,13 @@ Plug 'kovetskiy/sxhkd-vim'
 Plug 'chrisbra/Colorizer'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Raimondi/delimitMate'
-Plug 'mhartington/oceanic-next'
+"Plug 'mhartington/oceanic-next'
 Plug 'bling/vim-airline'
 Plug 'evanmiller/nginx-vim-syntax'
 " add terraform support
 Plug 'hashivim/vim-terraform'
 Plug 'vim-syntastic/syntastic'
-Plug 'juliosueiras/vim-terraform-completion'
+"Plug 'juliosueiras/vim-terraform-completion'
 call plug#end()
 
 " Make Vim more useful

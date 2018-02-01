@@ -41,8 +41,8 @@ zplug "plugins/wd", from:oh-my-zsh, defer:0
 #zplug "plugins/colorize", from:oh-my-zsh, defer:0
 #zplug "plugins/extract", from:oh-my-zsh, defer:0
 #zplug "plugins/gradle", from:oh-my-zsh, defer:0
-zplug "plugins/kubectl", from:oh-my-zsh, defer:0
-zplug "plugins/terraform", from:oh-my-zsh, defer:0
+#zplug "plugins/kubectl", from:oh-my-zsh, defer:0
+#zplug "plugins/terraform", from:oh-my-zsh, defer:0
 
 
 zplug "~/.zsh", from:local
