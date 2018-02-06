@@ -34,28 +34,28 @@ if [ isOSX ]; then
 elif [ isLinux ]; then
     VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
     GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
-    VERACRYPT_CLI_BIN= `which veracrypt`
+    VERACRYPT_CLI_BIN=`which veracrypt`
 fi
 
 # internal stuff =======================================================================================
 function check_dependencies {
     if [ ! -e $VERACRYPT_CLI_BIN ]; then
         echo "Error Veracrypt is not installed"
-        exit -1
+        return -1
     fi
     if [ ! -e "$LOCAL_BIN_PATH/gdrive" ]; then
         echo "Error, gdrive client is not installed"
-        exit -1
+        return -1
     fi
     RSYNC=`which rsync`
     if [ ! -e "$RSYNC" ]; then
         echo "Error rsync is not installed"
-        exit -1
+        return -1
     fi
     CURL=`which curl`
     if [ ! -e "$CURL" ]; then
         echo "Error, curl client is not installed"
-        exit -1
+        return -1
     fi
 }
 
@@ -65,14 +65,14 @@ function install_veracrypt_mac {
     brew cask install veracrypt
     if [ ! -e $VERACRYPT_CLI_BIN ]; then
         echo "install Veracrypt with homebrew as: brew cask install veracrypt"
-        exit -1
+        return -1
     fi
 }
 
 function install_veracrypt_linux {
     if [ -f $VERACRYPT_CLI_BIN ]; then 
         echo "Install veracrypt for your distro and make sure it is available in the PATH"
-        exit -1
+        return -1
     fi
 }
 
