@@ -20,3 +20,4 @@
   #    Creating rtorrent directories]
   #- [git update-submodules, Installing/updating submodules]
   - ["git submodule update --init --recursive", "Installing submodules"]
+    ["vim +PlugInstall +qall", "Install vim plugins"]
