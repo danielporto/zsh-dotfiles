@@ -1,6 +1,6 @@
 [user]
-	name = "Chris Hoage"
-	email = iam@chrishoage.com
+	name = Daniel Porto
+	email = daniel.porto@gmail.com
 [alias]
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline --graph --abbrev-commit
