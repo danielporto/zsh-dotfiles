@@ -4,7 +4,6 @@
     ~/.dotfiles: ''
     ~/.gitconfig: gitconfig
     ~/.gitignore_global: gitignore
-    #~/.screenrc: screenrc
     ~/.tmux.conf: tmux.conf
     ~/.vim: vim/
     ~/.vimrc: vimrc
@@ -12,6 +11,9 @@
     ~/.zsh: zsh/
     ~/.zshrc: zshrc
     #~/.hushlogin: hushlogin
+    ~/.myenvs: myenvs.sh
+    ~/.myssh: myssh.sh
+    ~/.myaliases: myaliases.sh
 
 - shell:
   #- [mkdir -p ~/.rtorrent/session ~/.rtorrent/watch ~/.rtorrent/downloads,
