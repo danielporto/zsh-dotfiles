@@ -9,6 +9,6 @@ export PATH=$PATH:$GOPATH/bin
 # eval "$(jenv init -)"
 
 # read other envs with keys and stuff
-if [ -n $HOME/.ssh/sensible-envs.sh ]; then 
+if [ -e $HOME/.ssh/sensible-envs.sh ]; then 
     source $HOME/.ssh/sensible-envs.sh
 fi
