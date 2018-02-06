@@ -19,7 +19,7 @@ zplug "lib/grep", from:oh-my-zsh
 zplug "lib/history", from:oh-my-zsh
 zplug "lib/key-bindings", from:oh-my-zsh
 zplug "lib/theme-and-appearance", from:oh-my-zsh
-zplug "lib/compfix", from:oh-my-zsh, defer:zplug "lib/completion", from:oh-my-zsh, defer:0
+#zplug "lib/compfix", from:oh-my-zsh, defer:zplug "lib/completion", from:oh-my-zsh, defer:0
 zplug "plugins/git", from:oh-my-zsh, if:"which git", defer:0
 zplug "plugins/gpg-agent", from:oh-my-zsh
 #zplug "plugins/rsync", from:oh-my-zsh, defer:5
