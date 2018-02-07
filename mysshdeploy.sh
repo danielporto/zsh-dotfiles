@@ -57,6 +57,7 @@ function check_dependencies {
         echo "Error, curl client is not installed"
         return -1
     fi
+    return 1
 }
 
 
@@ -132,7 +133,7 @@ function uninstall_gdrive {
 
 
 function sync_local2remote_vault {
-    check_dependencies;
+    if [ check_dependencies < 0 ]; then return 0; fi;
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
@@ -145,7 +146,7 @@ function sync_local2remote_vault {
 }
 
 function sync_remote2local_vault {
-    check_dependencies;
+    if [ check_dependencies < 0 ]; then return 0; fi;
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
