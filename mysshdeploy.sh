@@ -1,19 +1,38 @@
-# check if storm/veracrypt/rsync/python are installed (use a docker container? no. because we need a container with it)
+# check if storm/veracrypt/rsync/gdrive are installed (use a docker container? no. because we need a container with it)
 # check if the vault is in synch
 # download the vault and extract the content to .ssh
 # synchronize the content with the vault (rsync)
 # upload the vault
 
-isOSX="[[ $OSTYPE == *darwin* ]]"
-isLinux="[[ $OSTYPE == *linux* ]]"
-isDocker="" 
-if [[ $isLinux == True ]] ; then
-    if [[ ! $(cat /proc/1/sched | head -n 1 | grep init) ]]; then 
-        isDocker=True
+function isOSX {
+    case "$OSTYPE" in
+        darwin*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function isLinux {
+    case "$OSTYPE" in
+        linux*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function isDocker {
+ isLinux && \
+    if [[ ! $(cat /proc/1/sched | head -n 1 | grep "[init|systemd]") ]]; then 
+        return 0
     else 
-        isDocker=False
+        return 1
     fi
-fi
+
+    
+}
+
+# if isOSX  ; then echo "Is osx"; else echo "is not osx"; fi;
+# if isLinux ; then echo "Is linux"; else echo "is not linux"; fi;
+# if isDocker ; then echo "Is docker"; else echo  "is not docker"; fi;
+
 
 GDRIVE_LOCAL_PATH="$HOME/.gdrive"
 VAULT_GDRIVE_PATH=/Chaveiro/sshvault
@@ -23,41 +42,49 @@ VAULT_LOCAL_MOUNTPATH=$HOME/.sshvault
 LOCAL_BIN_PATH="$HOME/.local"
 GDRIVE_CLI_BIN="gdrive"
 GDRIVE_DOWNLOAD_URL=""
-VERACRYPT_CLI_PATH=""
-VERACRYPT_CLI_BIN=""
-
-
-if [ isOSX ]; then
-    VERACRYPT_DOWNLOAD_URL="" #none, installed via homebrew
-    GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_darwin"
-    VERACRYPT_CLI_BIN="/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt"
-elif [ isLinux ]; then
-    VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
-    GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
-    VERACRYPT_CLI_BIN=`which veracrypt`
+    
+if  isOSX ; then
+    export VERACRYPT_DOWNLOAD_URL="" #none, installed via homebrew
+    export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_darwin"
+    export VERACRYPT_CLI_BIN="/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt"
 fi
+if  isLinux ; then
+    export VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
+    export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
+    export VERACRYPT_CLI_BIN=`which veracrypt`
+fi
+
 
 # internal stuff =======================================================================================
 function check_dependencies {
+    STATUS=0
     if [ ! -e $VERACRYPT_CLI_BIN ]; then
         echo "Error Veracrypt is not installed"
-        return -1
+        $STATUS=1
     fi
     if [ ! -e "$LOCAL_BIN_PATH/gdrive" ]; then
         echo "Error, gdrive client is not installed"
-        return -1
+        $STATUS=1
     fi
+    # TODO check if gdrive is initialized properly
+    
+    STORM=`which storm`
+    if [ ! -e "$STORM" ]; then
+        echo "Warning Stormssh is not installed"
+    fi
+
     RSYNC=`which rsync`
     if [ ! -e "$RSYNC" ]; then
         echo "Error rsync is not installed"
-        return -1
+        $STATUS=1
     fi
     CURL=`which curl`
     if [ ! -e "$CURL" ]; then
         echo "Error, curl client is not installed"
-        return -1
+        $STATUS=1
     fi
-    return 1
+    echo "Status: $STATUS"
+    return $STATUS
 }
 
 
@@ -118,9 +145,9 @@ function umount_vault {
 #public functions ------------------------------------------------------------------------------------
 
 function install_gdrive {
-    if [ -n $isOSX ]; then
+    if isOSX ; then
         install_gdrive_mac
-    elif [ -n $isLinux ]; then
+    elif isLinux ; then
         install_gdrive_linux
     fi
 }
@@ -133,7 +160,7 @@ function uninstall_gdrive {
 
 
 function sync_local2remote_vault {
-    if [ check_dependencies < 0 ]; then return 0; fi;
+    if ! check_dependencies ; then return 1; fi;
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
@@ -146,7 +173,7 @@ function sync_local2remote_vault {
 }
 
 function sync_remote2local_vault {
-    if [ check_dependencies < 0 ]; then return 0; fi;
+    if ! check_dependencies ; then return 1; fi;
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
