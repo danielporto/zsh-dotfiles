@@ -63,11 +63,14 @@ function check_dependencies {
         $STATUS=1
     fi
     if [ ! -e "$LOCAL_BIN_PATH/gdrive" ]; then
-        echo "Error, gdrive client is not installed"
+        echo "Error, gdrive client is not installed. Install/initialize it: install_gdrive"
         $STATUS=1
     fi
     # TODO check if gdrive is initialized properly
-    
+    # TODO check if vim is installed
+    # TODO check if tmux is installed
+    # TODO check if sudo is installed
+    # TODO check if user has sudo permissions 
     STORM=`which storm`
     if [ ! -e "$STORM" ]; then
         echo "Warning Stormssh is not installed"
@@ -135,11 +138,19 @@ function upload_vault {
 
 function mount_vault {
     mkdir -p $VAULT_LOCAL_MOUNTPATH
-    $VERACRYPT_CLI_BIN $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH 
+    SUDOCMD=""
+    if [ "$(id -u)" != "0" ]; then
+	    export SUDOCMD="sudo"
+    fi
+    $SUDOCMD $VERACRYPT_CLI_BIN $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH 
 }
 
 function umount_vault {
-    $VERACRYPT_CLI_BIN -d $VAULT_LOCAL_MOUNTPATH 
+    SUDOCMD=""
+    if [ "$(id -u)" != "0" ]; then
+	    export SUDOCMD="sudo"
+    fi
+    $SUDOCMD $VERACRYPT_CLI_BIN -d $VAULT_LOCAL_MOUNTPATH 
 }
 
 #public functions ------------------------------------------------------------------------------------
@@ -161,6 +172,7 @@ function uninstall_gdrive {
 
 function sync_local2remote_vault {
     if ! check_dependencies ; then return 1; fi;
+    umount_vault 
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
@@ -174,10 +186,11 @@ function sync_local2remote_vault {
 
 function sync_remote2local_vault {
     if ! check_dependencies ; then return 1; fi;
+    umount_vault 
     echo "Downloading most recent vault" &&\
     download_vault &&\
     mount_vault &&\
     echo "sync remote vault to local" &&\
-    rsync -avh  $VAULT_LOCAL_MOUNTPATH $HOME/.ssh && \
+    rsync -avh  $VAULT_LOCAL_MOUNTPATH/ $HOME && \
     umount_vault 
 }
