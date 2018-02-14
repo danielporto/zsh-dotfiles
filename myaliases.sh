@@ -12,16 +12,26 @@ alias crwt='docker-compose run --rm watchtest'
 alias cps='docker-compose ps'
 alias clogs='docker-compose logs'
 alias dockerdaemontcp='socat TCP-LISTEN:2375,reuseaddr,fork UNIX-CONNECT:/var/run/docker.sock'
+
 crm(){
 	docker-compose stop $1
 	docker-compose rm --force $1
 }
-dockerclean() {
+
+dockerpurge() {
+  docker-compose down &> /dev/null
+  docker ps -aq --no-trunc | xargs docker rm
+  docker images -aq | xargs docker rmi
+  for i in `docker volume ls -qf dangling=true`; do docker volume rm $i; done
+}
+
+dockercleanup() {
   docker-compose down &> /dev/null
   docker ps -aq --no-trunc | xargs docker rm
   for i in `docker images|grep \<none\>|awk '{print $3}'`;do docker rmi -f $i;done
   for i in `docker volume ls -qf dangling=true`; do docker volume rm $i; done
 }
+
 
 # ssh - deprecated. use stormssh instead
 alias sshunsafe='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'

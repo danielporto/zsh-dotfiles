@@ -130,3 +130,7 @@ zmodload zsh/terminfo
 source $HOME/.myenvs
 source $HOME/.myaliases
 source $HOME/.mysshdeploy
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/danielporto/.sdkman"
+[[ -s "/home/danielporto/.sdkman/bin/sdkman-init.sh" ]] && source "/home/danielporto/.sdkman/bin/sdkman-init.sh"
