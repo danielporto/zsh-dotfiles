@@ -12,10 +12,12 @@
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 	# Pull in remote changes for the current repository and all its submodules
 	p = !"git pull; git submodule foreach git pull origin master"
+	# Push remote changes 
+	ps = push
 	# Clone a repository including all submodules
 	cl = clone --recursive
 	# Commit  changes
-	cm = git commit -m
+	cm = commit -m
 	# Switch to a branch, creating it if necessary
 	# Commit all changes
 	ca = !git add -A && git commit -av
