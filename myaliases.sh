@@ -94,7 +94,7 @@ crm(){
 dockerpurge() {
   docker-compose down &> /dev/null
   docker ps -aq --no-trunc | xargs docker rm
-  docker images -aq | xargs docker rmi
+  docker images -aq | xargs docker rmi --force
   for i in `docker volume ls -qf dangling=true`; do docker volume rm $i; done
 }
 
