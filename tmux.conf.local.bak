@@ -1,3 +1,4 @@
+# allow mouse use with tmux:
 if-shell "[ `tmux -V | awk '{print ($2 < 2.1)}'` -eq 1 ]" \
     'set -g mode-mouse on; set -g mouse-resize-pane on; set -g mouse-select-pane on; set -g mouse-select-window on'
 
@@ -28,3 +29,4 @@ if-shell '[ -f ~/.tmux.conf.local ]' 'source-file ~/.tmux.conf.local'
 
 # broadcast to panes
 bind -n C-x setw synchronize-panes 
+
