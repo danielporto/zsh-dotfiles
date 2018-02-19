@@ -51,3 +51,5 @@ alias sshmpitunnel="ssh -fND 1080 contact.mpi-sws.org "
 synch_kaioken () {
   rsync -avz -e ssh $HOME/devel/wksp_vftsprint/prj_vftsprint/code/kaiokengov dporto@146.193.41.217:/home/dporto/kaioken/kaioken_sync  
 }
+
+alias tmuxrestart='kill -9 `pidof tmux`'
