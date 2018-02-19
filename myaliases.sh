@@ -1,3 +1,76 @@
+function isOSX {
+    case "$OSTYPE" in
+        darwin*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function isLinux {
+    case "$OSTYPE" in
+        linux*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function isDocker {
+ isLinux && \
+    if [[ ! $(cat /proc/1/sched | head -n 1 | grep "[init|systemd]") ]]; then 
+        return 0
+    else 
+        return 1
+    fi
+}
+
+
+# mac environment reinstall
+function restore_mac_packages {
+  if [ ! isOSX ]; then
+    echo "Ignoring command, not OSX."
+    return -1
+  fi  
+  
+  HOMEBRW_BIN=`which brew`
+  if [ ! -e $HOMEBRW_BIN ]; then
+        echo 'install homebrew as: /usr/bin/ruby -e "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+        return -1
+  fi 
+  cd $ZPLUG_ROOT/.. && brew bundle  
+}
+
+function backup_mac_packages {
+  if [ ! isOSX ]; then
+    echo "Ignoring command, not OSX."
+    return -1
+  fi  
+  
+  HOMEBRW_BIN=`which brew`
+  if [ ! -e $HOMEBRW_BIN ]; then
+        echo 'install homebrew as: /usr/bin/ruby -e "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+        return -1
+  fi 
+  CURRENT=$PWD 
+  cd $ZPLUG_ROOT/.. && mv Brewfile Brewfile.bak && brew bundle dump
+  echo "Remember to push updates back to repository!"
+  cd $CURRENT
+}
+
+function update_mac_packages {
+  if [ ! isOSX ]; then
+    echo "Ignoring command, not OSX."
+    return -1
+  fi  
+  
+  HOMEBRW_BIN=`which brew`
+  if [ ! -e $HOMEBRW_BIN ]; then
+        echo 'install homebrew as: /usr/bin/ruby -e "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+        return -1
+  fi 
+  brew cu -y
+  echo "To force update: brew cu -a -f"
+  cd $CURRENT
+}
+
+
 # docker
 alias c='docker-compose'
 alias cb='docker-compose build'
@@ -53,3 +126,5 @@ synch_kaioken () {
 }
 
 alias tmuxrestart='kill -9 `pidof tmux`'
+
+
