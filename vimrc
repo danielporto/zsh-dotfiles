@@ -7,15 +7,28 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 "Plug 'kovetskiy/sxhkd-vim'
 Plug 'chrisbra/Colorizer'
+"Colors
+Plug 'flazz/vim-colorschemes'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Raimondi/delimitMate'
 "Plug 'mhartington/oceanic-next'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 "Plug 'evanmiller/nginx-vim-syntax'
 " add terraform support
 Plug 'hashivim/vim-terraform'
-Plug 'vim-syntastic/syntastic'
 "Plug 'juliosueiras/vim-terraform-completion'
+Plug 'vim-syntastic/syntastic'
+"autocomplete
+Plug 'valloric/youcompleteme'
+"filemanager inside vim
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'jlanzarotta/bufexplorer'
+"improve color visibility
+Plug 'godlygeek/csapprox'
+"generate markdown table of contents
+Plug 'mzlogin/vim-markdown-toc'
 call plug#end()
 
 " Make Vim more useful
@@ -69,7 +82,7 @@ set tabstop=2
 set shiftwidth=2
 
 set t_Co=256
-colorscheme elflord
+colorscheme molokai 
 set background=dark
 
 " terraform linter configuration ---------------------------
@@ -103,3 +116,4 @@ let g:terraform_completion_keys = 1
 " (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
 let g:terraform_registry_module_completion = 0
 
+autocmd vimenter * NERDTree
