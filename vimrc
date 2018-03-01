@@ -99,8 +99,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" (Optional)Remove Info(Preview) window
+let g:syntastic_loc_list_height=5
+let syntastic_quiet_messages = {
+        \ "!level":  "errors",
+        \ "type":    "style",
+        \ "regex":   '.*',
+        \ "file:p":  '.*' }
 set completeopt-=preview
 
 " (Optional)Hide Info(Preview) window after completions
@@ -116,4 +120,5 @@ let g:terraform_completion_keys = 1
 " (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
 let g:terraform_registry_module_completion = 0
 
-autocmd vimenter * NERDTree
+" activate NERDtree at startup
+" autocmd vimenter * NERDTree
