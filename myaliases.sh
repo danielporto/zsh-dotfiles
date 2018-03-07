@@ -65,8 +65,11 @@ function mac_update_packages {
         echo 'install homebrew as: /usr/bin/ruby -e "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
         return -1
   fi 
-  brew cu -y
-  echo "To force update: brew cu -a -f"
+  brew cu $1 $2 $3
+  echo "-------------------------------------------------------------"
+  echo "To force update: mac_update_packages -y -a -f"
+  echo "-------------------------------------------------------------"
+
   cd $CURRENT
 }
 
