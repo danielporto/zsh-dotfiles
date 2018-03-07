@@ -23,7 +23,7 @@ function isDocker {
 
 
 # mac environment reinstall
-function restore_mac_packages {
+function mac_restore_packages {
   if [ ! isOSX ]; then
     echo "Ignoring command, not OSX."
     return -1
@@ -37,7 +37,7 @@ function restore_mac_packages {
   cd $ZPLUG_ROOT/.. && brew bundle  
 }
 
-function backup_mac_packages {
+function mac_backup_packages {
   if [ ! isOSX ]; then
     echo "Ignoring command, not OSX."
     return -1
@@ -54,7 +54,7 @@ function backup_mac_packages {
   cd $CURRENT
 }
 
-function update_mac_packages {
+function mac_update_packages {
   if [ ! isOSX ]; then
     echo "Ignoring command, not OSX."
     return -1
@@ -68,6 +68,26 @@ function update_mac_packages {
   brew cu -y
   echo "To force update: brew cu -a -f"
   cd $CURRENT
+}
+
+
+function dotfiles_pull {
+  cd $ZPLUG_ROOT/.. && git pull --rebase
+}
+
+function dotfiles_push {
+   $DAY=date "+%H:%M:%S   %d/%m/%y"
+   cd $ZPLUG_ROOT/.. && git add -A && git commit -m "Update $DAY $1" 
+}
+
+function dotfiles_status {
+   $DAY=date "+%H:%M:%S   %d/%m/%y"
+   cd $ZPLUG_ROOT/.. && git status
+}
+
+function dotfiles_changes {
+   $DAY=date "+%H:%M:%S   %d/%m/%y"
+   cd $ZPLUG_ROOT/.. && git diff -r 
 }
 
 
