@@ -75,9 +75,14 @@ function dotfiles_pull {
   cd $ZPLUG_ROOT/.. && git pull --rebase
 }
 
-function dotfiles_push {
+function dotfiles_update {
    $DAY=date "+%H:%M:%S   %d/%m/%y"
    cd $ZPLUG_ROOT/.. && git add -A && git commit -m "Update $DAY $1" 
+}
+
+function dotfiles_push {
+   $DAY=date "+%H:%M:%S   %d/%m/%y"
+   cd $ZPLUG_ROOT/.. && git push
 }
 
 function dotfiles_status {
