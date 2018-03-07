@@ -108,22 +108,12 @@ dockercleanup() {
 
 # ssh - deprecated. use stormssh instead
 alias sshunsafe='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-alias sshoc='ssh dporto@146.193.41.217'
-alias sshpi='ssh pi@146.193.41.244'
-#alias sshmpi="ssh -A -t contact.mpi-sws.org ssh -A -t "
-#alias sshmpi-tmux=tmux-cssh -ss "ssh -A -t contact.mpi-sws.org ssh -A -t "
-#alias sshmpitmux=tmux-cssh -ss "ssh -A -t contact.mpi-sws.org ssh -A -t "
-alias sshmpitunnel="ssh -fND 1080 contact.mpi-sws.org "
 
 
 # alias setgopath='export GOPATH=`pwd` ; export PATH=$GOPATH/bin:$PATH'
 # alias cdgopath='cd $HOME/devel/gocode'
 # alias cdgopathcurrent='cd $GOPATH'
 
-# custom
-synch_kaioken () {
-  rsync -avz -e ssh $HOME/devel/wksp_vftsprint/prj_vftsprint/code/kaiokengov dporto@146.193.41.217:/home/dporto/kaioken/kaioken_sync  
-}
 
 alias tmuxrestart='kill -9 `pidof tmux`'
 
