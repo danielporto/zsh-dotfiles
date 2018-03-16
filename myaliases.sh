@@ -142,7 +142,12 @@ alias sshunsafe='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 # alias cdgopath='cd $HOME/devel/gocode'
 # alias cdgopathcurrent='cd $GOPATH'
 
-
-alias tmuxrestart='kill -9 `pidof tmux`'
+alias tmx='tmux'
+alias tmxx='tmux choose-tree'
+alias tmxs='tmux choose-tree'
+alias tmxls='tmux list-sessions'
+alias tmxrld='kill -9 `pidof tmux`'
+alias tmxrntab='tmux rename-window'
+alias tmxrnsession='tmux rename-session'
 
 
