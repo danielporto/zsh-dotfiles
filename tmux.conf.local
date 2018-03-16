@@ -268,3 +268,4 @@ set -g mouse on
 
 # broadcast to panes
 bind b setw synchronize-panes \; display "Broadcasting!"
+set-option -g status-position top
