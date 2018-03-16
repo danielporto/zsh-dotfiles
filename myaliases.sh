@@ -149,5 +149,6 @@ alias tmxls='tmux list-sessions'
 alias tmxrld='kill -9 `pidof tmux`'
 alias tmxrntab='tmux rename-window'
 alias tmxrnsession='tmux rename-session'
+alias tmxkill='tmux kill-session -t'
 
 
