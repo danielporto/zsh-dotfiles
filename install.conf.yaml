@@ -15,6 +15,7 @@
     ~/.myenvs: myenvs.sh
     ~/.mysshdeploy: mysshdeploy.sh
     ~/.myaliases: myaliases.sh
+    ~/.warprc: ~/.ssh/warprc
 
 - shell:
   #- [mkdir -p ~/.rtorrent/session ~/.rtorrent/watch ~/.rtorrent/downloads,
