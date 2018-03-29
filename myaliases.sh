@@ -136,7 +136,7 @@ dockercleanup() {
 
 # ssh - deprecated. use stormssh instead
 alias sshunsafe='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-
+alias sshfs='sshfs -o max_readahead=32768,max_read=65536,max_write=8192 -o auto_cache -o reconnect'
 
 # alias setgopath='export GOPATH=`pwd` ; export PATH=$GOPATH/bin:$PATH'
 # alias cdgopath='cd $HOME/devel/gocode'
@@ -149,6 +149,8 @@ alias muxls='tmux list-sessions'
 alias muxrld='kill -9 `pidof tmux`'
 alias muxrntab='tmux rename-window'
 alias muxrnsession='tmux rename-session'
+alias muxrnsession='tmux rename-session'
+alias muxneewsession='tmux new-session -d -s '
 alias muxkill='tmux kill-session -t'
 
 
