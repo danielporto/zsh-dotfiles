@@ -1,9 +1,32 @@
 export ZPLUG_HOME=$HOME/.zplug
 source $ZPLUG_HOME/init.zsh
 
-isOSX="[[ $OSTYPE == *darwin* ]]"
-isLinux="[[ $OSTYPE == *linux* ]]"
-isDocker=isLinux && [[ $(grep  docker /proc/1/cgroup -qa) ]]
+# What OS are we in?
+isOSX=1
+isLinux=1
+isLinux32=1
+isLinux64=1
+isDocker=1
+isRaspberry=1
+
+case "$OSTYPE" in
+    darwin*) #echo "It's a Mac!!" ;
+             isOSX=0 ;
+             ;;        
+    linux*) isLinux=0 ;
+            #echo "It's a Linux!!" ;
+            # test for 32bit architecture
+            if [[ ! $(uname -a | grep "[i686]") ]]; then  isLinux32=0 fi ;
+            # test for 64bit architecture
+            if [[ ! $(uname -a | grep "[x86_64]") ]]; then isLinux64=0  fi ;
+            # test for arm raspberry pi architecture
+            if [[ ! $(uname -a | grep "[armv7]") ]]; then isRaspberry=0  fi ;
+            # test for container
+            if [[ ! $(cat /proc/1/cgroup | grep "[docker]") ]]; then isDocker=0  fi ;
+            ;;
+    *) echo "System not recognized"; exit 1 ;
+        ;;
+esac
 
 
 zplug "lib/clipboard", from:oh-my-zsh
