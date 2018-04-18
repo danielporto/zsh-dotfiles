@@ -88,7 +88,7 @@ function check_dependencies {
 # install veracrypt client -----------------------------------------------------------------------------
 function install_vault {
     if [ "$isLinux" = true ] ; then
-        install_gdrive_linux;
+        install_veracrypt_linux;
     elif [ "$isOSX" = true ] ; then
         install_veracrypt_mac;
     else
