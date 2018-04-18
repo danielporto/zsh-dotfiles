@@ -1,24 +1,24 @@
 # What OS are we in?
-isOSX=1
-isLinux=1
-isLinux32=1
-isLinux64=1
-isDocker=1
-isRaspberry=1
+isOSX=false
+isLinux=false
+isLinux32=false
+isLinux64=false
+isDocker=false
+isRaspberry=false
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=0 ;;        
-    linux*) isLinux=0 ;
+             isOSX=true ;;        
+    linux*) isLinux=true ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
-            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=0; fi ;
+            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=true; fi ;
             # test for 64bit architecture
-            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=0;  fi ;
+            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=true;  fi ;
             # test for arm raspberry pi architecture
-            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=0;  fi ;
+            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=true;  fi ;
             # test for container
-            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=0;  fi ;;
+            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=true;  fi ;;
     *) echo "System not recognized"; exit 1 ;;
 esac
 
@@ -26,7 +26,7 @@ esac
 
 # mac environment reinstall
 function mac_restore_packages {
-  if [ ! isOSX ]; then
+  if [ "$isOSX" = true ]; then
     echo "Ignoring command, not OSX."
     return -1
   fi  
@@ -40,7 +40,7 @@ function mac_restore_packages {
 }
 
 function mac_backup_packages {
-  if [ ! isOSX ]; then
+  if [ "$isOSX" != true  ]; then
     echo "Ignoring command, not OSX."
     return -1
   fi  
@@ -57,7 +57,7 @@ function mac_backup_packages {
 }
 
 function mac_update_packages {
-  if [ ! isOSX ]; then
+  if [ "$isOSX" != true  ]; then
     echo "Ignoring command, not OSX."
     return -1
   fi  

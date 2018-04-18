@@ -2,26 +2,27 @@ export ZPLUG_HOME=$HOME/.zplug
 source $ZPLUG_HOME/init.zsh
 
 # What OS are we in?
-isOSX=1
-isLinux=1
-isLinux32=1
-isLinux64=1
-isDocker=1
-isRaspberry=1
+# What OS are we in?
+isOSX=false
+isLinux=false
+isLinux32=false
+isLinux64=false
+isDocker=false
+isRaspberry=false
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=0 ;;        
-    linux*) isLinux=0 ;
+             isOSX=true ;;        
+    linux*) isLinux=true ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
-            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=0; fi ;
+            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=true; fi ;
             # test for 64bit architecture
-            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=0;  fi ;
+            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=true;  fi ;
             # test for arm raspberry pi architecture
-            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=0;  fi ;
+            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=true;  fi ;
             # test for container
-            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=0;  fi ;;
+            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=true;  fi ;;
     *) echo "System not recognized"; exit 1 ;;
 esac
 
@@ -38,13 +39,13 @@ zplug "plugins/gpg-agent", from:oh-my-zsh
 #zplug "plugins/rsync", from:oh-my-zsh, defer:5
 zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:0
 #zplug "plugins/sublime", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh, if:!${isDocker} , defer:0
-zplug "plugins/docker-compose", from:oh-my-zsh, if:!${isDocker} defer:0
+zplug "plugins/docker", from:oh-my-zsh, if:"[ $isDocker = false ]" , defer:0
+zplug "plugins/docker-compose", from:oh-my-zsh, if:"[ $isDocker = false ]" defer:0
 #zplug "plugins/yarn", from:oh-my-zsh, defer:0
 zplug "plugins/common-aliases", from:oh-my-zsh, defer:0
-zplug "plugins/brew", from:oh-my-zsh, if:$isOSX
-zplug "plugins/osx", from:oh-my-zsh, if:$isOSX, defer:0
-zplug "plugins/debian", from:oh-my-zsh, if:$isLinux
+zplug "plugins/brew", from:oh-my-zsh, if:"[ $isOSX = true ]"
+zplug "plugins/osx", from:oh-my-zsh, if:"[ $isOSX = true ]", defer:0
+zplug "plugins/debian", from:oh-my-zsh, if:"[ $isLinux = true ]"
 zplug "rupa/z", use:z.sh, defer:0
 zplug "rimraf/k", use:k.sh
 

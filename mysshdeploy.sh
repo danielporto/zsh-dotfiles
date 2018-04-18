@@ -4,27 +4,26 @@
 # synchronize the content with the vault (rsync)
 # upload the vault
 
-# What OS are we in?
-isOSX=1
-isLinux=1
-isLinux32=1
-isLinux64=1
-isDocker=1
-isRaspberry=1
+isOSX=false
+isLinux=false
+isLinux32=false
+isLinux64=false
+isDocker=false
+isRaspberry=false
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=0 ;;        
-    linux*) isLinux=0 ;
+             isOSX=true ;;        
+    linux*) isLinux=true ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
-            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=0; fi ;
+            if [ -n "$(uname -a | grep 'i686')" ]; then  isLinux32=true; fi ;
             # test for 64bit architecture
-            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=0;  fi ;
+            if [ -n "$(uname -a | grep '86_64')" ]; then isLinux64=true;  fi ;
             # test for arm raspberry pi architecture
-            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=0;  fi ;
+            if [ -n "$(uname -a | grep 'armv7')" ]; then isRaspberry=true;  fi ;
             # test for container
-            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=0;  fi ;;
+            if [ -n "$(cat /proc/1/cgroup | grep 'docker')" ]; then isDocker=true;  fi ;;
     *) echo "System not recognized"; exit 1 ;;
 esac
 
@@ -38,12 +37,12 @@ LOCAL_BIN_PATH="$HOME/.local"
 GDRIVE_CLI_BIN="gdrive"
 GDRIVE_DOWNLOAD_URL=""
     
-if [ isOSX ] ; then
+if [ "$isOSX" = true ] ; then
     export VERACRYPT_DOWNLOAD_URL="" #none, installed via homebrew
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_darwin"
     export VERACRYPT_CLI_BIN="/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt"
 fi
-if [ isLinux ] ; then
+if [ "$isLinux" = true ] ; then
     export VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
     export VERACRYPT_CLI_BIN=`which veracrypt`
@@ -108,15 +107,15 @@ function install_veracrypt_linux {
         tar xvf /tmp/veracrypt-setup.tar.bz2 -C /tmp
 
         # install
-        isLinux64 && /tmp/veracrypt-1.22-setup-console-x64
-        isLinux32 && /tmp/veracrypt-1.22-setup-console-x86
-        isLinuxRaspberry && /tmp/veracrypt-1.21-setup-console-armv7
+        [ "$isLinux64" = true ]  && /tmp/veracrypt-1.22-setup-console-x64
+        [ "$isLinux32" = true ] && /tmp/veracrypt-1.22-setup-console-x86
+        [ "$isLinuxRaspberry" = true ] && /tmp/veracrypt-1.21-setup-console-armv7
         
 
-        isLinux64 && tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
-        isLinux32 && tar xvf /tmp/veracrypt_1.22_console_i386.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
-        isDocker && echo "Not ready for docker yet." && exit 0
-        isLinuxRaspberry && tar xvf /tmp/veracrypt_1.21_console_armv7.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+        [ "$isLinux64" = true ] && tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+        [ "$isLinux32" = true ] && tar xvf /tmp/veracrypt_1.22_console_i386.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+        [ "$isDocker" = true ] && echo "Not ready for docker yet." && exit 0
+        [ "$isRaspberry" = true ] && tar xvf /tmp/veracrypt_1.21_console_armv7.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
 
         ln -s $LOCAL_BIN_PATH/veracrypt_app/usr/bin/veracrypt $LOCAL_BIN_PATH
     fi
@@ -171,9 +170,9 @@ function umount_vault {
 #public functions ------------------------------------------------------------------------------------
 
 function install_gdrive {
-    if isOSX ; then
+    if [ "$isOSX" = true ] ; then
         install_gdrive_mac
-    elif isLinux ; then
+    elif [ "$isLinux" = true ] ; then
         install_gdrive_linux
     fi
 }
