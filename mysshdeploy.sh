@@ -14,22 +14,20 @@ isRaspberry=1
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=0 ;
-             ;;        
+             isOSX=0 ;;        
     linux*) isLinux=0 ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
-            if [[ ! $(uname -a | grep "[i686]") ]]; then  isLinux32=0 fi ;
+            if [ $(uname -a | grep "i686") ]; then  isLinux32=0 fi ;
             # test for 64bit architecture
-            if [[ ! $(uname -a | grep "[x86_64]") ]]; then isLinux64=0  fi ;
+            if [ $(uname -a | grep "x86_64") ]; then isLinux64=0  fi ;
             # test for arm raspberry pi architecture
-            if [[ ! $(uname -a | grep "[armv7]") ]]; then isRaspberry=0  fi ;
+            if [ $(uname -a | grep "armv7") ]; then isRaspberry=0  fi ;
             # test for container
-            if [[ ! $(cat /proc/1/cgroup | grep "[docker]") ]]; then isDocker=0  fi ;
-            ;;
-    *) echo "System not recognized"; exit 1 ;
-        ;;
+            if [ $(cat /proc/1/cgroup | grep "docker") ]; then isDocker=0  fi ;;
+    *) echo "System not recognized"; exit 1 ;;
 esac
+
 
 GDRIVE_LOCAL_PATH="$HOME/.gdrive"
 VAULT_GDRIVE_PATH=/Chaveiro/sshvault
@@ -40,12 +38,12 @@ LOCAL_BIN_PATH="$HOME/.local"
 GDRIVE_CLI_BIN="gdrive"
 GDRIVE_DOWNLOAD_URL=""
     
-if  isOSX ; then
+if [ isOSX ] ; then
     export VERACRYPT_DOWNLOAD_URL="" #none, installed via homebrew
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_darwin"
     export VERACRYPT_CLI_BIN="/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt"
 fi
-if  isLinux ; then
+if [ isLinux ] ; then
     export VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
     export VERACRYPT_CLI_BIN=`which veracrypt`

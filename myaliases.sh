@@ -1,25 +1,27 @@
-function isOSX {
-    case "$OSTYPE" in
-        darwin*) return 0 ;;
-        *) return 1 ;;
-    esac
-}
+# What OS are we in?
+isOSX=1
+isLinux=1
+isLinux32=1
+isLinux64=1
+isDocker=1
+isRaspberry=1
 
-function isLinux {
-    case "$OSTYPE" in
-        linux*) return 0 ;;
-        *) return 1 ;;
-    esac
-}
+case "$OSTYPE" in
+    darwin*) #echo "It's a Mac!!" ;
+             isOSX=0 ;;        
+    linux*) isLinux=0 ;
+            #echo "It's a Linux!!" ;
+            # test for 32bit architecture
+            if [ $(uname -a | grep "i686") ]; then  isLinux32=0 fi ;
+            # test for 64bit architecture
+            if [ $(uname -a | grep "x86_64") ]; then isLinux64=0  fi ;
+            # test for arm raspberry pi architecture
+            if [ $(uname -a | grep "armv7") ]; then isRaspberry=0  fi ;
+            # test for container
+            if [ $(cat /proc/1/cgroup | grep "docker") ]; then isDocker=0  fi ;;
+    *) echo "System not recognized"; exit 1 ;;
+esac
 
-function isDocker {
- isLinux && \
-    if [[ ! $(cat /proc/1/sched | head -n 1 | grep "[init|systemd]") ]]; then 
-        return 0
-    else 
-        return 1
-    fi
-}
 
 
 # mac environment reinstall

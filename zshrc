@@ -11,21 +11,18 @@ isRaspberry=1
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=0 ;
-             ;;        
+             isOSX=0 ;;        
     linux*) isLinux=0 ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
-            if [[ ! $(uname -a | grep "[i686]") ]]; then  isLinux32=0 fi ;
+            if [ $(uname -a | grep "i686") ]; then  isLinux32=0 fi ;
             # test for 64bit architecture
-            if [[ ! $(uname -a | grep "[x86_64]") ]]; then isLinux64=0  fi ;
+            if [ $(uname -a | grep "x86_64") ]; then isLinux64=0  fi ;
             # test for arm raspberry pi architecture
-            if [[ ! $(uname -a | grep "[armv7]") ]]; then isRaspberry=0  fi ;
+            if [ $(uname -a | grep "armv7") ]; then isRaspberry=0  fi ;
             # test for container
-            if [[ ! $(cat /proc/1/cgroup | grep "[docker]") ]]; then isDocker=0  fi ;
-            ;;
-    *) echo "System not recognized"; exit 1 ;
-        ;;
+            if [ $(cat /proc/1/cgroup | grep "docker") ]; then isDocker=0  fi ;;
+    *) echo "System not recognized"; exit 1 ;;
 esac
 
 
