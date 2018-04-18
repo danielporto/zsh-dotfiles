@@ -98,6 +98,10 @@ function dotfiles_changes {
    cd $ZPLUG_ROOT/.. && git diff -r 
 }
 
+function dotfiles_dependecies_install {
+   vim +PlugInstall +qall \
+   && ~/.vim/plugged/youcompleteme/install.py --clang-completer
+}
 
 # docker
 alias c='docker-compose'

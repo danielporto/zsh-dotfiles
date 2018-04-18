@@ -22,4 +22,6 @@
   #    Creating rtorrent directories]
   #- [git update-submodules, Installing/updating submodules]
   #- ["git submodule update --init --recursive", "Installing submodules"]
-  - ["vim +PlugInstall +qall", "Install vim plugins"]
+  - ["echo Install vim dependencies with dotfiles_dependecies_install command.", "Install plugins"]
+  # - ["~/.vim/plugged/youcompleteme/install.py --clang-completer", "Install vim plugins"]
+  # - ["vim +PlugInstall +qall", "Install vim plugins"]

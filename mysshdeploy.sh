@@ -18,20 +18,41 @@ function isLinux {
     esac
 }
 
+function isLinux32 {
+     isLinux && \
+    if [[ ! $(uname -a | grep "[i686]") ]]; then 
+        return 0
+    else 
+        return 1
+    fi 
+}
+
+function isLinux64{
+     isLinux && \
+    if [[ ! $(uname -a | grep "[x86_64]") ]]; then 
+        return 0
+    else 
+        return 1
+    fi 
+}
+
+function isRaspberry {
+     isLinux && \
+    if [[ ! $(uname -a | grep "[armv7]") ]]; then 
+        return 0
+    else 
+        return 1
+    fi 
+}
+
 function isDocker {
- isLinux && \
+    isLinux && \
     if [[ ! $(cat /proc/1/sched | head -n 1 | grep "[init|systemd]") ]]; then 
         return 0
     else 
         return 1
-    fi
-
-    
+    fi    
 }
-
-# if isOSX  ; then echo "Is osx"; else echo "is not osx"; fi;
-# if isLinux ; then echo "Is linux"; else echo "is not linux"; fi;
-# if isDocker ; then echo "Is docker"; else echo  "is not docker"; fi;
 
 
 GDRIVE_LOCAL_PATH="$HOME/.gdrive"
@@ -101,10 +122,36 @@ function install_veracrypt_mac {
 }
 
 function install_veracrypt_linux {
-    if [ -f $VERACRYPT_CLI_BIN ]; then 
-        echo "Install veracrypt for your distro and make sure it is available in the PATH"
-        return -1
-    fi
+    # if [ -f $VERACRYPT_CLI_BIN ]; then 
+    #     echo "Install veracrypt for your distro and make sure it is available in the PATH"
+    #     return -1
+    # fi
+if [ -f $VERACRYPT_CLI_BIN ]; then 
+    echo "installing veracrypt for linux"
+    mkdir -p $LOCAL_BIN_PATH/veracrypt
+     
+    # download
+    [[ isLinux64 | isLinux32 ]] && curl -L https://launchpad.net/veracrypt/trunk/1.22/+download/veracrypt-1.22-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2
+    isLinuxRaspberry && curl -L https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-raspbian-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2
+
+    # extract
+    tar xvf /tmp/veracrypt-setup.tar.bz2 -C /tmp
+
+    # install
+    isLinux64 && /tmp/veracrypt-1.22-setup-console-x64
+    isLinux32 && /tmp/veracrypt-1.22-setup-console-x86
+    isLinuxRaspberry && /tmp/veracrypt-1.21-setup-console-armv7
+    
+
+    isLinux64 && tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+    isLinux32 && tar xvf /tmp/veracrypt_1.22_console_i386.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+    isDocker && echo "Not ready for docker yet." && exit 0
+    isLinuxRaspberry && tar xvf /tmp/veracrypt_1.21_console_armv7.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+
+    ln -s $LOCAL_BIN_PATH/veracrypt_app/usr/bin/veracrypt $LOCAL_BIN_PATH
+fi
+
+    
 }
 
 # install google drive client ----------------------------------------------------------------------------
