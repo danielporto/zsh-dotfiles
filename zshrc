@@ -5,7 +5,7 @@ isOSX="[[ $OSTYPE == *darwin* ]]"
 isLinux="[[ $OSTYPE == *linux* ]]"
 isDocker="" 
 if [[ $isLinux == True ]] ; then
-    if [[ ! $(cat /proc/1/sched | head -n 1 | grep init) ]]; then 
+    if [[ ! $(cat /proc/1/sched | head -n 1 | grep [systemd|init]) ]]; then 
         isDocker=True
     else 
         isDocker=False
