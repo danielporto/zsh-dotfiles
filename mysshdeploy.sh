@@ -38,12 +38,10 @@ GDRIVE_CLI_BIN="gdrive"
 GDRIVE_DOWNLOAD_URL=""
     
 if [ "$isOSX" = true ] ; then
-    export VERACRYPT_DOWNLOAD_URL="" #none, installed via homebrew
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_darwin"
     export VERACRYPT_CLI_BIN="/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt"
 fi
 if [ "$isLinux" = true ] ; then
-    export VERACRYPT_DOWNLOAD_URL="https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-setup.tar.bz2"
     export GDRIVE_DOWNLOAD_URL="https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux"
     export VERACRYPT_HOME_PATH="$LOCAL_BIN_PATH/veracrypt_app"
     export VERACRYPT_CLI_BIN="$LOCAL_BIN_PATH/veracrypt"
@@ -111,12 +109,13 @@ function install_veracrypt_mac {
 
 function install_veracrypt_linux {
     echo "About to install in linux: $VERACRYPT_CLI_BIN"
+    if [ "$isRaspberry" = true ]; then echo "is rapberry!"; else echo "not raspberry"; fi;
     if [ ! -e "$VERACRYPT_CLI_BIN" ]; then 
         echo "installing veracrypt for linux"
         mkdir -p $VERACRYPT_HOME_PATH
         # download
         if [ "$isLinux64" = true ] || [ "$isLinux32" = true ]; then curl -L https://launchpad.net/veracrypt/trunk/1.22/+download/veracrypt-1.22-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2; fi;
-        if [ "$isLinuxRaspberry" = true ]; then  curl -L https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-raspbian-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2; fi; 
+        if [ "$isRaspberry" = true ]; then  curl -L https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-raspbian-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2; fi; 
 
         # extract
         tar xvf /tmp/veracrypt-setup.tar.bz2 -C /tmp
@@ -124,7 +123,7 @@ function install_veracrypt_linux {
         # install
         if [ "$isLinux64" = true ]; then  /tmp/veracrypt-1.22-setup-console-x64; fi; 
         if [ "$isLinux32" = true ]; then /tmp/veracrypt-1.22-setup-console-x86; fi; 
-        if [ "$isLinuxRaspberry" = true ]; then /tmp/veracrypt-1.21-setup-console-armv7; fi; 
+        if [ "$isRaspberry" = true ]; then /tmp/veracrypt-1.21-setup-console-armv7; fi; 
         
 
         if [ "$isLinux64" = true ]; then tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $VERACRYPT_HOME_PATH; fi; 
@@ -149,7 +148,9 @@ function install_gdrive_mac {
 function install_gdrive_linux {
     echo "installing gdrive for linux"
     mkdir -p $LOCAL_BIN_PATH
-    curl -L https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux -o $LOCAL_BIN_PATH/gdrive
+    if [ "$isLinux64" = true ]; then curl -L https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_linux -o $LOCAL_BIN_PATH/gdrive ; fi;
+    if [ "$isLinux32" = true ]; then echo "System not supported yet" ; fi;
+    if [ "$isRaspberry" = true ]; then curl -L https://github.com/odeke-em/drive/releases/download/v0.3.9/drive_armv7 -o $LOCAL_BIN_PATH/gdrive ; fi;
     chmod +x $LOCAL_BIN_PATH/gdrive
     mkdir -p $GDRIVE_LOCAL_PATH
     $LOCAL_BIN_PATH/gdrive init $GDRIVE_LOCAL_PATH
