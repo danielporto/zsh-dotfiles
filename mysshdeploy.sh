@@ -86,6 +86,17 @@ function check_dependencies {
 
 
 # install veracrypt client -----------------------------------------------------------------------------
+function install_vault {
+    if [ "$isLinux" = true ] ; then
+        install_gdrive_linux;
+    elif [ "$isOSX" = true ] ; then
+        install_veracrypt_mac;
+    else
+        echo "Unsupported system. sorry" 
+    fi
+}
+
+
 function install_veracrypt_mac {
     brew cask install veracrypt
     if [ ! -e $VERACRYPT_CLI_BIN ]; then
@@ -100,22 +111,22 @@ function install_veracrypt_linux {
         mkdir -p $LOCAL_BIN_PATH/veracrypt
         
         # download
-        $(isLinux64 | isLinux32)  && curl -L https://launchpad.net/veracrypt/trunk/1.22/+download/veracrypt-1.22-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2
-        isLinuxRaspberry && curl -L https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-raspbian-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2
+        if [ "$isLinux64" = true | "$isLinux32" = true ]; then curl -L https://launchpad.net/veracrypt/trunk/1.22/+download/veracrypt-1.22-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2; fi;
+        if [ "$isLinuxRaspberry"= true ]; then  curl -L https://launchpad.net/veracrypt/trunk/1.21/+download/veracrypt-1.21-raspbian-setup.tar.bz2 -o /tmp/veracrypt-setup.tar.bz2; fi; 
 
         # extract
         tar xvf /tmp/veracrypt-setup.tar.bz2 -C /tmp
 
         # install
-        [ "$isLinux64" = true ]  && /tmp/veracrypt-1.22-setup-console-x64
-        [ "$isLinux32" = true ] && /tmp/veracrypt-1.22-setup-console-x86
-        [ "$isLinuxRaspberry" = true ] && /tmp/veracrypt-1.21-setup-console-armv7
+        if [ "$isLinux64" = true ]; then  /tmp/veracrypt-1.22-setup-console-x64; fi; 
+        if [ "$isLinux32" = true ]; then /tmp/veracrypt-1.22-setup-console-x86; fi; 
+        if [ "$isLinuxRaspberry" = true ]; then /tmp/veracrypt-1.21-setup-console-armv7; fi; 
         
 
-        [ "$isLinux64" = true ] && tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
-        [ "$isLinux32" = true ] && tar xvf /tmp/veracrypt_1.22_console_i386.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
-        [ "$isDocker" = true ] && echo "Not ready for docker yet." && exit 0
-        [ "$isRaspberry" = true ] && tar xvf /tmp/veracrypt_1.21_console_armv7.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app
+        if [ "$isLinux64" = true ]; then tar xvf /tmp/veracrypt_1.22_console_amd64.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app; fi; 
+        if [ "$isLinux32" = true ]; then tar xvf /tmp/veracrypt_1.22_console_i386.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app; fi; 
+        if [ "$isDocker" = true ]; then echo "Not ready for docker yet." && exit 0; fi; 
+        if [ "$isRaspberry" = true ]; then tar xvf /tmp/veracrypt_1.21_console_armv7.tar.gz -C $LOCAL_BIN_PATH/veracrypt_app; fi; 
 
         ln -s $LOCAL_BIN_PATH/veracrypt_app/usr/bin/veracrypt $LOCAL_BIN_PATH
     fi
