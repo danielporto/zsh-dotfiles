@@ -163,7 +163,7 @@ function download_vault {
 function upload_vault {
     # make sure we force upload
     #touch $GDRIVE_LOCAL_PATH/$VAULT_GDRIVE_PATH
-    $LOCAL_BIN_PATH/gdrive push -no-prompt -force $GDRIVE_LOCAL_PATH/$VAULT_GDRIVE_PATH
+    $LOCAL_BIN_PATH/gdrive push -ignore-checksum=false -no-prompt -force $GDRIVE_LOCAL_PATH/$VAULT_GDRIVE_PATH
 }
 
 function mount_vault {
