@@ -172,7 +172,7 @@ function mount_vault {
     if [ "$(id -u)" != "0" ] && [ "$isOSX" = true ]; then
 	    export SUDOCMD="sudo"
     fi
-    $SUDOCMD $VERACRYPT_CLI_BIN $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH 
+    $SUDOCMD $VERACRYPT_CLI_BIN -m=nokernelcrypto $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH 
 }
 
 function umount_vault {
