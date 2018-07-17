@@ -1,6 +1,6 @@
 export ZPLUG_HOME=$HOME/.zplug
 source $ZPLUG_HOME/init.zsh
-
+#zmodload zsh/zprof 
 # What OS are we in?
 # What OS are we in?
 isOSX=false
@@ -149,3 +149,4 @@ source $HOME/.mysshdeploy
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 export PATH=$HOME/local/flutter/bin:$PATH
+#zprof
