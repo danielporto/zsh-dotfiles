@@ -26,7 +26,7 @@ esac
 
 # mac environment reinstall
 function mac_restore_packages {
-  if [ "$isOSX" = true ]; then
+  if [ "$isOSX" = false ]; then
     echo "Ignoring command, not OSX."
     return -1
   fi  

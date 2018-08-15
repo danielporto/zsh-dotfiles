@@ -172,7 +172,8 @@ function mount_vault {
     if [ "$(id -u)" != "0" ] && [ "$isOSX" = true ]; then
 	    export SUDOCMD="sudo"
     fi
-    $SUDOCMD $VERACRYPT_CLI_BIN -m=nokernelcrypto $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH 
+
+    $SUDOCMD $VERACRYPT_CLI_BIN -m=nokernelcrypto  $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH
 }
 
 function umount_vault {
@@ -200,27 +201,85 @@ function uninstall_gdrive {
 }
 
 
-function sync_local2remote_vault {
+function credentials-upload {
     if ! check_dependencies ; then return 1; fi;
+    echo "#--------------------------------------------------------------------"
+    echo "# Make sure the vault is not mounted."
     umount_vault 
+    echo "#--------------------------------------------------------------------" &&\
     echo "Downloading most recent vault" &&\
     download_vault &&\
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Mount most recent vault." &&\  
     mount_vault &&\
     echo "sync local to remote vault" &&\
     rsync -avh $HOME/.ssh $VAULT_LOCAL_MOUNTPATH && \
+    echo "#--------------------------------------------------------------------" &&\
     echo "finished - umount" &&\
     umount_vault &&\
+    echo "#--------------------------------------------------------------------" &&\
     echo "Uploading most recent vault" &&\
     upload_vault
 }
 
-function sync_remote2local_vault {
+function credentials-download {
     if ! check_dependencies ; then return 1; fi;
+    echo "#--------------------------------------------------------------------"
+    echo "# Make sure the vault is not mounted."
     umount_vault 
+    echo "#--------------------------------------------------------------------" &&\
     echo "Downloading most recent vault" &&\
     download_vault &&\
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Mount most recent vault." &&\
     mount_vault &&\
-    echo "sync remote vault to local" &&\
+    echo "#--------------------------------------------------------------------" &&\
+    echo "sync vault to local" &&\
     rsync -avh  $VAULT_LOCAL_MOUNTPATH/ $HOME && \
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Close vault." &&\
+    umount_vault &&\
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Fix permissions of ssh dir." &&\
+    chmod -R 740 $HOME/.ssh
+
+
+}
+
+function credentials-mount-ro {
+    mkdir -p $VAULT_LOCAL_MOUNTPATH
+    SUDOCMD=""
+    if [ "$(id -u)" != "0" ] && [ "$isOSX" = true ]; then
+	    export SUDOCMD="sudo"
+    fi
+
+    # test if the vault is downloaded
+    # test if the vault is mounted
+
+    $SUDOCMD $VERACRYPT_CLI_BIN -m=nokernelcrypto,ro  $VAULT_LOCAL_PATH $VAULT_LOCAL_MOUNTPATH
+
+}
+
+function credentials-clean {
+    echo "#--------------------------------------------------------------------"
+    echo "# Make sure the vault is not mounted."
     umount_vault 
+
+    echo "#--------------------------------------------------------------------" &&\
+    echo "backup authorized keys." 
+    cp $HOME/.ssh/authorized_keys /tmp
+
+    echo "#--------------------------------------------------------------------" &&\
+    echo "backup known hosts."
+    cp $HOME/.ssh/known_hosts /tmp
+    
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Cleanup .ssh." 
+    # remove everything else.
+    rm -rf $HOME/.ssh/*
+
+    echo "#--------------------------------------------------------------------" &&\
+    echo "Restore known hosts and authorized keys." 
+    mv /tmp/authorized_keys $HOME/.ssh
+    mv /tmp/known_hosts $HOME/.ssh
 }
