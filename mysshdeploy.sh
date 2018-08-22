@@ -283,3 +283,31 @@ function credentials-clean {
     mv /tmp/authorized_keys $HOME/.ssh
     mv /tmp/known_hosts $HOME/.ssh
 }
+
+
+function credentials-load-agent {
+    echo "#--------------------------------------------------------------------"
+    echo "# loading keys into ssh agent"
+    for f in $(ls ~/.ssh/*.pub | rev | cut -c 5- | rev | cut -d "." -f 2 ); do 
+        echo "Loading ~/.$f..."
+        ssh-add -t 10 ~/.$f; 
+    done;
+
+    # dir=$(pwd)
+    # cd ~/.ssh
+    # for f in $(ls *.pub | rev | cut -c 5- | rev ); do 
+    #     echo "Loading $f..."
+    #     ssh-add -t 10 $f; 
+    # done;
+    # cd $dir
+
+
+}
+
+function credentials-copy-config-to {
+    if -z $1; then
+        echo "SSH host not specified. Aborting"
+        return
+    fi
+    scp ~/.ssh/config $1:~/.ssh
+}

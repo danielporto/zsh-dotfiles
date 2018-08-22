@@ -26,6 +26,8 @@ case "$OSTYPE" in
     *) echo "System not recognized"; exit 1 ;;
 esac
 
+#ZSH_DISABLE_COMPFIX=true
+
 
 zplug "lib/clipboard", from:oh-my-zsh
 zplug "lib/git", from:oh-my-zsh
@@ -33,15 +35,12 @@ zplug "lib/grep", from:oh-my-zsh
 zplug "lib/history", from:oh-my-zsh
 zplug "lib/key-bindings", from:oh-my-zsh
 zplug "lib/theme-and-appearance", from:oh-my-zsh
-#zplug "lib/compfix", from:oh-my-zsh, defer:zplug "lib/completion", from:oh-my-zsh, defer:0
 zplug "plugins/git", from:oh-my-zsh, if:"which git", defer:0
 zplug "plugins/gpg-agent", from:oh-my-zsh
-#zplug "plugins/rsync", from:oh-my-zsh, defer:5
+zplug "plugins/rsync", from:oh-my-zsh, defer:5
 zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:0
-#zplug "plugins/sublime", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh, if:"[ $isDocker = false ]" , defer:0
 zplug "plugins/docker-compose", from:oh-my-zsh, if:"[ $isDocker = false ]" defer:0
-#zplug "plugins/yarn", from:oh-my-zsh, defer:0
 zplug "plugins/common-aliases", from:oh-my-zsh, defer:0
 zplug "plugins/brew", from:oh-my-zsh, if:"[ $isOSX = true ]"
 zplug "plugins/osx", from:oh-my-zsh, if:"[ $isOSX = true ]", defer:0
@@ -56,15 +55,19 @@ zplug "plugins/wd", from:oh-my-zsh, defer:0
 #zplug "plugins/gradle", from:oh-my-zsh, defer:0
 #zplug "plugins/kubectl", from:oh-my-zsh, defer:0
 #zplug "plugins/terraform", from:oh-my-zsh, defer:0
+#zplug "plugins/yarn", from:oh-my-zsh, defer:0
 
 
 zplug "~/.zsh", from:local
 zplug "~/.zsh", from:local, as:theme
 zplug "~/", use:".extra", from:local, if:"[[ -f ~/.extra ]]"
 
-zplug "zsh-users/zsh-completions", defer:0
+zplug "zsh-users/zsh-completions", defer:1
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-history-substring-search", defer:3
+
+zplug "wuotr/zsh-plugin-vscode", defer:0
+
 
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
@@ -140,6 +143,9 @@ zmodload zsh/terminfo
 
 # bind shift tab to reverse menu compelte
 #bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+autoload -Uz compinit && compinit -i
+
 
 source $HOME/.myenvs
 source $HOME/.myaliases
