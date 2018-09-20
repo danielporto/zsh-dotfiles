@@ -37,7 +37,7 @@ zplug "lib/key-bindings", from:oh-my-zsh
 zplug "lib/theme-and-appearance", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh, if:"which git", defer:0
 zplug "plugins/gpg-agent", from:oh-my-zsh
-zplug "plugins/rsync", from:oh-my-zsh, defer:5
+zplug "plugins/rsync", from:oh-my-zsh, defer:3
 zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:0
 zplug "plugins/docker", from:oh-my-zsh, if:"[ $isDocker = false ]" , defer:0
 zplug "plugins/docker-compose", from:oh-my-zsh, if:"[ $isDocker = false ]" defer:0
