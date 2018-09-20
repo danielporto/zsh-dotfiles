@@ -159,5 +159,6 @@ alias muxrnsession='tmux rename-session'
 alias muxneewsession='tmux new-session -d -s '
 alias muxkill='tmux kill-session -t'
 
+alias facetimekill='sudo killall VDCAssistant'
 
 
