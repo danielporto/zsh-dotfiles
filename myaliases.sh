@@ -159,6 +159,12 @@ alias muxrnsession='tmux rename-session'
 alias muxneewsession='tmux new-session -d -s '
 alias muxkill='tmux kill-session -t'
 
+alias mmmm="tmux"
+alias mmm="tmux attach || tmux new"
+# "tmux attach || tmux new"export PATH="/usr/local/opt/libxslt/bin:$PATH"
+
+
 alias facetimekill='sudo killall VDCAssistant'
 
 alias play='ansible-playbook'
+

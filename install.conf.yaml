@@ -12,6 +12,10 @@
     ~/.zsh: zsh/
     ~/.zshrc: zshrc
     #~/.hushlogin: hushlogin
+    ~/.profile: profile
+    ~/.bash_profile: bash_profile
+    ~/.zprofile: zprofile
+
     ~/.myenvs: myenvs.sh
     ~/.mysshdeploy: mysshdeploy.sh
     ~/.myaliases: myaliases.sh

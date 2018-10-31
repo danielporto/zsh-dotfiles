@@ -32,6 +32,34 @@ if [ "$isOSX" = true ]; then
     eval "$(jenv init -)"
 fi
 
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export PATH=$HOME/local/flutter/bin:$PATH
+#zprof
+export PATH="/usr/local/opt/libxslt/bin:$PATH"
+
+
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+
+# Make vim the default editor
+export EDITOR="vim"
+
+# Prefer US English and use UTF-8
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="$ORANGE"
+
+# Don’t clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
+# Link Homebrew casks in `/Applications` rather than `~/Applications`
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+
 
 # read other envs with keys and stuff
 if [ -e $HOME/.ssh/sensible-envs.sh ]; then 
