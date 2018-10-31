@@ -1,5 +1,4 @@
-export ZPLUG_HOME=$HOME/.zplug
-source $ZPLUG_HOME/init.zsh
+
 #zmodload zsh/zprof 
 # What OS are we in?
 # What OS are we in?
@@ -12,7 +11,7 @@ isRaspberry=false
 
 case "$OSTYPE" in
     darwin*) #echo "It's a Mac!!" ;
-             isOSX=true ;;        
+            isOSX=true ;;        
     linux*) isLinux=true ;
             #echo "It's a Linux!!" ;
             # test for 32bit architecture
@@ -26,31 +25,78 @@ case "$OSTYPE" in
     *) echo "System not recognized"; exit 1 ;;
 esac
 
-#ZSH_DISABLE_COMPFIX=true
+################################################################################
+# General configuration
+################################################################################
+fpath=($fpath $HOME/.zsh/func)
+typeset -U fpath
+if $isOSX ;then
+    # for brew zsh-completions
+    fpath=(/usr/local/share/zsh-completions $fpath)
+fi
 
 
-zplug "lib/clipboard", from:oh-my-zsh
-zplug "lib/git", from:oh-my-zsh
-zplug "lib/grep", from:oh-my-zsh
-zplug "lib/history", from:oh-my-zsh
-zplug "lib/key-bindings", from:oh-my-zsh
-zplug "lib/theme-and-appearance", from:oh-my-zsh
-zplug "plugins/git", from:oh-my-zsh, if:"which git", defer:0
-zplug "plugins/gpg-agent", from:oh-my-zsh
-zplug "plugins/rsync", from:oh-my-zsh, defer:3
-zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:0
-zplug "plugins/docker", from:oh-my-zsh, if:"[ $isDocker = false ]" , defer:0
-zplug "plugins/docker-compose", from:oh-my-zsh, if:"[ $isDocker = false ]" defer:0
-zplug "plugins/common-aliases", from:oh-my-zsh, defer:0
-zplug "plugins/brew", from:oh-my-zsh, if:"[ $isOSX = true ]"
-zplug "plugins/osx", from:oh-my-zsh, if:"[ $isOSX = true ]", defer:0
-zplug "plugins/debian", from:oh-my-zsh, if:"[ $isLinux = true ]"
-zplug "rupa/z", use:z.sh, defer:0
-zplug "rimraf/k", use:k.sh
+# Set to this to use case-sensitive completion
+export CASE_SENSITIVE="true"
 
-zplug "plugins/wd", from:oh-my-zsh, defer:0
-#zplug "plugins/colored-man-pages", from:oh-my-zsh, defer:0
-#zplug "plugins/colorize", from:oh-my-zsh, defer:0
+# bash-like word delimiters
+autoload -U select-word-style
+select-word-style bash
+
+# Set CLICOLOR if you want Ansi Colors in iTerm2
+export CLICOLOR=1
+# Set colors to match iTerm2 Terminal Colors
+export TERM=xterm-256color
+
+
+## History Configuration
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+#Number of history entries to save to disk
+SAVEHIST=5000
+#Erase duplicates in the history file
+HISTDUP=erase
+# Make some commands not show up in history
+HISTIGNORE="ls:cd -:pwd:exit:date:* --help"
+#Append history to the history file (no overwriting)
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+
+# Theme settings
+PURE_CMD_MAX_EXEC_TIME=10
+
+################################################################################
+# Plugins
+################################################################################
+
+# zplug settings
+export ZPLUG_HOME=$HOME/.zplug
+source $ZPLUG_HOME/init.zsh
+
+# alias
+zplug "MichaelAquilina/zsh-you-should-use"
+zplug "plugins/common-aliases", from:oh-my-zsh
+
+# terminal
+zplug "plugins/compleat", from:oh-my-zsh 
+# avoid other compleat plugins such as zplug "zsh-users/zsh-completions"
+# they cause conflicts with tab completion and tmux
+zplug "plugins/sudo", from:oh-my-zsh
+zplug "plugins/gnu-utils", from:oh-my-zsh
+zplug "hlissner/zsh-autopair", defer:2
+# zplug "lib/clipboard", from:oh-my-zsh
+
+
+# for specific apps
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/docker-compose", from:oh-my-zsh
+zplug "Cloudstek/zsh-plugin-appup"
+zplug "rawkode/zsh-docker-run"
+zplug "plugins/httpie", from:oh-my-zsh
+zplug "plugins/tmux", from:oh-my-zsh
+zplug "unixorn/tumult.plugin.zsh"
+zplug "qianxinfeng/zsh-vscode"
 #zplug "plugins/extract", from:oh-my-zsh, defer:0
 #zplug "plugins/gradle", from:oh-my-zsh, defer:0
 #zplug "plugins/kubectl", from:oh-my-zsh, defer:0
@@ -58,44 +104,103 @@ zplug "plugins/wd", from:oh-my-zsh, defer:0
 #zplug "plugins/yarn", from:oh-my-zsh, defer:0
 
 
-zplug "~/.zsh", from:local
-zplug "~/.zsh", from:local, as:theme
-zplug "~/", use:".extra", from:local, if:"[[ -f ~/.extra ]]"
+# for specific commands
+zplug "lib/grep", from:oh-my-zsh
+zplug "plugins/cp", from:oh-my-zsh
+zplug "rummik/zsh-ing"
 
-zplug "zsh-users/zsh-completions", defer:1
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
+# git
+zplug "plugins/git-extras", from:oh-my-zsh
+zplug "plugins/git-flow", from:oh-my-zsh
+zplug "plugins/github", from:oh-my-zsh
+zplug "peterhurford/git-it-on.zsh"
+
+# python
+zplug "plugins/pip", from:oh-my-zsh
+zplug "plugins/python", from:oh-my-zsh
+
+# osx
+zplug "plugins/brew", from:oh-my-zsh, if:"[ $isOSX = true ]"
+zplug "plugins/osx", from:oh-my-zsh, if:"[ $isOSX = true ]"
+zplug "pstadler/8209487", \
+    from:gist, \
+    as:plugin, \
+    use:brew-cask.plugin.zsh, if:"[ $isOSX = true ]"
+
+# colors
+zplug "seebi/dircolors-solarized"
+zplug "plugins/colored-man-pages", from:oh-my-zsh
+zplug "plugins/colorize", from:oh-my-zsh
+
+# file system
+zplug "plugins/dirpersist", from:oh-my-zsh
+zplug "mfaerevaag/wd", as:command, use: 'wd.sh', hook-load:" wd() { . $ZPLUG_REPOS/mfaerevaag/wd/wd.sh } "
+zplug "plugins/per-directory-history", from:oh-my-zsh
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+# zplug "zdharma/fast-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-history-substring-search", defer:3
 
-zplug "wuotr/zsh-plugin-vscode", defer:0
+# main theme
+zplug "mafredri/zsh-async", from:github
+zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+# zplug "themes/fishy", from:oh-my-zsh
+
+# zplug "themes/pygmalion", from:oh-my-zsh, as:theme
+# zplug 'dracula/zsh', as:theme
+# zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+# zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check; then
+    zplug install
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
+
+# ########################
+# after plugins configurations
 
 
-DISABLE_AUTO_UPDATE="true"
-DISABLE_AUTO_TITLE="true"
-COMPLETION_WAITING_DOTS="false"
-APPEND_HISTORY="true"
+# tab highlight colors
+zstyle ':completion:*' menu select
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+# highlighters
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# ls colors
+eval `dircolors -b $ZPLUG_HOME/repos/seebi/dircolors-solarized/dircolors.256dark`
+
+# from https://github.com/zsh-users/zsh-history-substring-search/issues/59
+# zsh-history-substring-search configuration
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+# zmodload zsh/terminfo
+#bindkey "$terminfo[kcuu1]" history-substring-search-up
+#bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# Using hub feels best when it's aliased as git.
+# Your normal git commands will all work, hub merely adds some sugar.
+# THIS HAS TO BE AT THE END, otherwise package manager might not work
+eval "$(hub alias -s)"
+
+# init pyenv shims
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 
 export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-    #printf "Install? [y/N]: "
-    #if read -q; then
-    echo; zplug install
-    #fi
-fi
 
 unsetopt cdable_vars
 unsetopt auto_name_dirs
 
 zplug load
+
+################################################################################
+
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -103,12 +208,8 @@ export LANG=en_US.UTF-8
 # Make vim the default editor
 export EDITOR="vim"
 
-# Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
-# Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+
+
 
 # Prefer US English and use UTF-8
 export LANG="en_US"
@@ -123,30 +224,6 @@ export MANPAGER="less -X"
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-# bind UP and DOWN arrow keys
-zmodload zsh/terminfo
-#bindkey "$terminfo[kcuu1]" history-substring-search-up
-#bindkey "$terminfo[kcud1]" history-substring-search-down
-
-# bind UP and DOWN arrow keys (compatibility fallback
-# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
-#bindkey '^[[A' history-substring-search-up
-#bindkey '^[[B' history-substring-search-down
-
-# bind P and N for EMACS mode
-#bindkey -M emacs '^P' history-substring-search-up
-#bindkey -M emacs '^N' history-substring-search-down
-
-# bind k and j for VI mode
-#bindkey -M vicmd 'k' history-substring-search-up
-#bindkey -M vicmd 'j' history-substring-search-down
-
-# bind shift tab to reverse menu compelte
-#bindkey -M menuselect '^[[Z' reverse-menu-complete
-
-autoload -Uz compinit && compinit -i
-
-
 source $HOME/.myenvs
 source $HOME/.myaliases
 source $HOME/.mysshdeploy
@@ -156,3 +233,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 export PATH=$HOME/local/flutter/bin:$PATH
 #zprof
+export PATH="/usr/local/opt/libxslt/bin:$PATH"
