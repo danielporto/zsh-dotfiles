@@ -161,4 +161,4 @@ alias muxkill='tmux kill-session -t'
 
 alias facetimekill='sudo killall VDCAssistant'
 
-
+alias play='ansible-playbook'
