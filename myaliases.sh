@@ -144,10 +144,9 @@ dockercleanup() {
 alias sshunsafe='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 alias sshfs='sshfs -o max_readahead=32768,max_read=65536,max_write=8192 -o auto_cache -o reconnect'
 
-# alias setgopath='export GOPATH=`pwd` ; export PATH=$GOPATH/bin:$PATH'
-# alias cdgopath='cd $HOME/devel/gocode'
-# alias cdgopathcurrent='cd $GOPATH'
-
+# tmux shortcuts
+alias mmmm="tmux"
+alias mmm="tmux attach || tmux new"
 alias mux='tmux'
 alias muxx='tmux choose-tree'
 alias muxs='tmux choose-tree'
@@ -159,12 +158,24 @@ alias muxrnsession='tmux rename-session'
 alias muxneewsession='tmux new-session -d -s '
 alias muxkill='tmux kill-session -t'
 
-alias mmmm="tmux"
-alias mmm="tmux attach || tmux new"
-# "tmux attach || tmux new"export PATH="/usr/local/opt/libxslt/bin:$PATH"
-
-
+# Restart facetime without rebooting the system
 alias facetimekill='sudo killall VDCAssistant'
+
+# Remove all items safely, to Trash
+alias rrm='rm'
+alias rm='trash'
+
+# Always use color output for `ls`
+alias ls="command ls ${colorflag}"
+
+# brew ctags default to brew one
+alias ctags="`brew --prefix`/bin/ctags"
+
+# maven uses 1 thread per core per default
+alias mvn="mvn -T 1C"
+
+# quickly exit terminal `ls`
+alias xx="exit"
 
 alias play='ansible-playbook'
 
