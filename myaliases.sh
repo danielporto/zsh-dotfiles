@@ -166,7 +166,8 @@ alias rrm='rm'
 alias rm='trash'
 
 # Always use color output for `ls`
-alias ls="command ls ${colorflag}"
+# alias ls="command ls ${colorflag}"
+alias ls="command ls --color"
 
 # brew ctags default to brew one
 alias ctags="`brew --prefix`/bin/ctags"
