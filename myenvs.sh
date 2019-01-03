@@ -59,7 +59,7 @@ export MANPAGER="less -X"
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-
+export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
 
 # read other envs with keys and stuff
 if [ -e $HOME/.ssh/sensible-envs.sh ]; then 
