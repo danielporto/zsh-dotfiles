@@ -192,15 +192,15 @@ fi
 
 export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-
+export PATH="$HOME/.jenv/bin:$PATH"
 
 unsetopt cdable_vars
 unsetopt auto_name_dirs
 
 zplug load
-
+eval "$(jenv init -)"
 ################################################################################
 
 
-#source $HOME/.profile
+source $HOME/.profile
 
