@@ -1,5 +1,4 @@
-
-#zmodload zsh/zprof 
+# zmodload zsh/zprof 
 # What OS are we in?
 # What OS are we in?
 isOSX=false
@@ -73,30 +72,49 @@ PURE_CMD_MAX_EXEC_TIME=10
 # zplug settings
 export ZPLUG_HOME=$HOME/.zplug
 source $ZPLUG_HOME/init.zsh
+autoload -Uz compinit 
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+	compinit;
+else
+	compinit -C;
+fi;
 
 # alias
-zplug "MichaelAquilina/zsh-you-should-use"
-zplug "plugins/common-aliases", from:oh-my-zsh
+# disabled for testing - zplug "MichaelAquilina/zsh-you-should-use"
+# disabled for testing - zplug "plugins/common-aliases", from:oh-my-zsh
 
-# terminal
-zplug "plugins/compleat", from:oh-my-zsh 
+
+# terminal autocompleat
+#zplug "plugins/compleat", from:oh-my-zsh 
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
+# zplug "plugins/command-not-found", from:oh-my-zsh
+zplug "plugins/autojump", from:oh-my-zsh
+# zplug "plugins/compleat", from:oh-my-zsh
+
+#zsh-completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+
 # avoid other compleat plugins such as zplug "zsh-users/zsh-completions"
 # they cause conflicts with tab completion and tmux
-zplug "plugins/sudo", from:oh-my-zsh
-zplug "plugins/gnu-utils", from:oh-my-zsh
-zplug "hlissner/zsh-autopair", defer:2
+# other terminal stuff
+# disabled for testing - zplug "plugins/sudo", from:oh-my-zsh
+# disabled for testing - zplug "plugins/gnu-utils", from:oh-my-zsh
+# disabled for testing - zplug "hlissner/zsh-autopair", defer:2
 # zplug "lib/clipboard", from:oh-my-zsh
 
 
 # for specific apps
 zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "Cloudstek/zsh-plugin-appup"
-zplug "rawkode/zsh-docker-run"
-zplug "plugins/httpie", from:oh-my-zsh
+# disabled for testing - zplug "plugins/docker-compose", from:oh-my-zsh
+# disabled for testing - zplug "Cloudstek/zsh-plugin-appup"
+# disabled for testing - zplug "rawkode/zsh-docker-run"
+# disabled for testing - zplug "plugins/httpie", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "unixorn/tumult.plugin.zsh"
-zplug "qianxinfeng/zsh-vscode"
+# disabled for testing - zplug "qianxinfeng/zsh-vscode"
 #zplug "plugins/extract", from:oh-my-zsh, defer:0
 #zplug "plugins/gradle", from:oh-my-zsh, defer:0
 #zplug "plugins/kubectl", from:oh-my-zsh, defer:0
@@ -105,18 +123,18 @@ zplug "qianxinfeng/zsh-vscode"
 
 
 # for specific commands
-zplug "lib/grep", from:oh-my-zsh
-zplug "plugins/cp", from:oh-my-zsh
-zplug "rummik/zsh-ing"
+# disabled for testing - zplug "lib/grep", from:oh-my-zsh
+# disabled for testing - zplug "plugins/cp", from:oh-my-zsh
+# disabled for testing - zplug "rummik/zsh-ing"
 
 # git
-zplug "plugins/git-extras", from:oh-my-zsh
-zplug "plugins/git-flow", from:oh-my-zsh
+# disabled for testing - zplug "plugins/git-extras", from:oh-my-zsh
+# disabled for testing - zplug "plugins/git-flow", from:oh-my-zsh
 zplug "plugins/github", from:oh-my-zsh
 zplug "peterhurford/git-it-on.zsh"
 
 # python
-zplug "plugins/pip", from:oh-my-zsh
+# disabled for testing - zplug "plugins/pip", from:oh-my-zsh
 zplug "plugins/python", from:oh-my-zsh
 
 # osx
@@ -128,27 +146,64 @@ zplug "pstadler/8209487", \
     use:brew-cask.plugin.zsh, if:"[ $isOSX = true ]"
 
 # colors
-zplug "seebi/dircolors-solarized"
-zplug "plugins/colored-man-pages", from:oh-my-zsh
+# disabled for testing - zplug "seebi/dircolors-solarized"
+# disabled for testing - zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/colorize", from:oh-my-zsh
 
 # file system
-zplug "plugins/dirpersist", from:oh-my-zsh
+# disabled for testing - zplug "plugins/dirpersist", from:oh-my-zsh
 zplug "mfaerevaag/wd", as:command, use: 'wd.sh', hook-load:" wd() { . $ZPLUG_REPOS/mfaerevaag/wd/wd.sh } "
 zplug "plugins/per-directory-history", from:oh-my-zsh
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # zplug "zdharma/fast-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-history-substring-search", defer:3
 
-# main theme
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-# zplug "themes/fishy", from:oh-my-zsh
+# disabled for testing - zplug "mafredri/zsh-async", from:github
 
-# zplug "themes/pygmalion", from:oh-my-zsh, as:theme
+# main theme
+# bad: 
+
+# untested
+# zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+# zplug "themes/fishy", from:oh-my-zsh
 # zplug 'dracula/zsh', as:theme
 # zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-# zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+
+
+
+# good
+# zplug "themes/pygmalion", from:oh-my-zsh, as:theme
+# zplug "themes/sporty_256", from:oh-my-zsh, as:theme
+# zplug "themes/steeef", from:oh-my-zsh, as:theme
+# zplug "oskarkrawczyk/honukai-iterm-zsh", use:honukai.zsh-theme,  from:github, as:theme
+# zplug "eendroroy/alien-minimal", as:theme
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
+
+# customization examples: https://github.com/bhilburn/powerlevel9k/wiki/Show-Off-Your-Config
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_COLOR_SCHEME='light'
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv context dir vcs root_indicator newline)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time  background_jobs time)
+POWERLEVEL9K_VIRTUALENV_BACKGROUND='springgreen4'
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='springgreen3'
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='black'
+POWERLEVEL9K_DIR_HOME_BACKGROUND='springgreen2'
+POWERLEVEL9K_DIR_HOME_FOREGROUND='black'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='springgreen2'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND='black'
+POWERLEVEL9K_OS_ICON_BACKGROUND='grey0'
+POWERLEVEL9K_OS_ICON_FOREGROUND='deepskyblue3'
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND='green'
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='grey11'
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='yellow'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='grey11'
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='red'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='grey11'
+POWERLEVEL9K_STATUS_OK_BACKGROUND='springgreen2'
+POWERLEVEL9K_STATUS_OK_FOREGROUND='black'
+POWERLEVEL9K_STATUS_ERROR_BACKGROUND='red'
+POWERLEVEL9K_STATUS_ERROR_FOREGROUND='black'
+
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
@@ -169,7 +224,7 @@ zstyle ':completion:*' menu select
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # ls colors
-eval `dircolors -b $ZPLUG_HOME/repos/seebi/dircolors-solarized/dircolors.256dark`
+# disabled for testing - eval `dircolors -b $ZPLUG_HOME/repos/seebi/dircolors-solarized/dircolors.256dark`
 
 # from https://github.com/zsh-users/zsh-history-substring-search/issues/59
 # zsh-history-substring-search configuration
@@ -179,6 +234,13 @@ HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 # zmodload zsh/terminfo
 #bindkey "$terminfo[kcuu1]" history-substring-search-up
 #bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# navigation keys in iterm - https://coderwall.com/p/a8uxma/zsh-iterm2-osx-shortcuts
+# bindkey "[D" backward-word
+# bindkey "[C" forward-word
+bindkey "^[a" beginning-of-line
+bindkey "^[e" end-of-line
+
 
 # Using hub feels best when it's aliased as git.
 # Your normal git commands will all work, hub merely adds some sugar.
@@ -204,3 +266,4 @@ eval "$(jenv init -)"
 
 source $HOME/.profile
 
+# zprof

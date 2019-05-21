@@ -162,8 +162,8 @@ alias muxkill='tmux kill-session -t'
 alias facetimekill='sudo killall VDCAssistant'
 
 # Remove all items safely, to Trash
-alias rrm='rm'
-alias rm='trash'
+#alias rrm='rm'
+#alias rm='trash'
 
 # Always use color output for `ls`
 # alias ls="command ls ${colorflag}"
@@ -175,8 +175,9 @@ alias ctags="`brew --prefix`/bin/ctags"
 # maven uses 1 thread per core per default
 alias mvn="mvn -T 1C"
 
-# quickly exit terminal `ls`
-alias xx="exit"
 
 alias play='ansible-playbook'
-
+alias cls='clear'
+alias xx='clear'
+alias xxx='exit'
+alias qq='exit'
