@@ -180,7 +180,7 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username}
 #     - #{username_ssh}
 #tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
+tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
 #tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
 tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}, %R , %d %b | #{username}#{root} | #{hostname} '
 
@@ -322,8 +322,18 @@ if "test ! -d ~/.tmux/plugins/tpm" \
 # broadcast to panes
 bind b setw synchronize-panes \; display "Broadcasting!"
 set-option -g status-position top
+
 # rename window to reflect current program
-setw -g automatic-rename off 
+set -g status-interval 1
+# setw -g automatic-rename off 
+# set -g window-status-format '#I:#(pwd="#{pane_current_path}"; echo ${pwd####*/})#F'
+# set -g window-status-current-format '#I:#(pwd="#{pane_current_path}"; echo ${pwd####*/})#F'
+# set-option -g automatic-rename-format '#{b:pane_current_path} #{pane_current_cmd}'
+# set-option -g automatic-rename-format '#{pane_current_command}'
+# set-option -g automatic-rename-format '#{b:pane_current_path}'
+# set-option -g automatic-rename-format '#I:#(pwd="#{pane_current_path}"; echo ${pwd####*/})#F'
+
+
 # set default shell
 set-option -g default-shell /usr/local/bin/fish
 # set-option -g default-shell /usr/local/bin/bash
