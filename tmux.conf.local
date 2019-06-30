@@ -325,8 +325,8 @@ set-option -g status-position top
 # rename window to reflect current program
 setw -g automatic-rename off 
 # set default shell
-#set-option -g default-shell /usr/local/bin/fish
-set-option -g default-shell /usr/local/bin/bash
+set-option -g default-shell /usr/local/bin/fish
+# set-option -g default-shell /usr/local/bin/bash
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 #run -b '/Volumes/data/Users/dan/.dotfiles/tmux-tpm/plugins/tpm/tpm'
