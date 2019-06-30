@@ -170,14 +170,14 @@ alias facetimekill='sudo killall VDCAssistant'
 alias ls="ls -G"
 
 # brew ctags default to brew one
-alias ctags="`brew --prefix`/bin/ctags"
+# alias ctags="`brew --prefix`/bin/ctags"
 
 # maven uses 1 thread per core per default
 alias mvn="mvn -T 1C"
-
 
 alias play='ansible-playbook'
 alias cls='clear'
 alias xx='clear'
 alias xxx='exit'
 alias qq='exit'
+alias youtube-dl-pl='youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -f mp4 '
