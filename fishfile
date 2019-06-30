@@ -5,3 +5,6 @@ fishpkg/fish-prompt-metro
 rafaelrinaldi/pure
 matchai/spacefish
 franciscolourenco/done
+fisherman/pyenv
+fishpkg/fish-humanize-duration
+reitzig/sdkman-for-fish
