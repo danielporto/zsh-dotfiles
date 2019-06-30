@@ -297,8 +297,37 @@ set -g mouse on
 # move status line to top
 #set -g status-position top
 
+# plugin manager install
+if "test ! -d ~/.tmux/plugins/tpm" \
+   "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
+
+# List of plugins
+ set -g @tpm_plugins '          \
+   tmux-plugins/tpm             \
+   tmux-plugins/tmux-sensible   \
+   tmux-plugins/tmux-resurrect  \
+   tmux-plugins/tmux-sessionist  \
+   tmux-plugins/tmux-fpp \
+   tmux-plugins/tmux-urlview \
+ '
+
+
+# set -g @plugin 'nhdaly/tmux-better-mouse-mode'
+
+# Lightweight tmux utils for manipulating sessions - https://github.com/tmux-plugins/tmux-sessionist
+#set -g @plugin 'tmux-plugins/tmux-sessionist'
+
+
+
 # broadcast to panes
 bind b setw synchronize-panes \; display "Broadcasting!"
 set-option -g status-position top
-setw -g automatic-rename off # rename window to reflect current program
-set-option -g default-shell /usr/local/bin/fish
+# rename window to reflect current program
+setw -g automatic-rename off 
+# set default shell
+#set-option -g default-shell /usr/local/bin/fish
+set-option -g default-shell /usr/local/bin/bash
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+#run -b '/Volumes/data/Users/dan/.dotfiles/tmux-tpm/plugins/tpm/tpm'
+run -b '~/.tmux/plugins/tpm/tpm'
