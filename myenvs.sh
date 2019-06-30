@@ -27,18 +27,15 @@ esac
 
 if [ "$isOSX" = true ]; then
     export PATH="/usr/local/opt/python@2/libexec/bin":$PATH
-    # for java management
-    export PATH="$HOME/.jenv/bin:$PATH"
-    eval "$(jenv init -)"
+    # Link Homebrew casks in `/Applications` rather than `~/Applications`
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# for java management
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-export PATH=$HOME/local/flutter/bin:$PATH
-#zprof
-export PATH="/usr/local/opt/libxslt/bin:$PATH"
 
+export PATH=$HOME/local/flutter/bin:$PATH
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -56,31 +53,37 @@ export LESS_TERMCAP_md="$ORANGE"
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+# compilers
+# libxml2 is keg-only, which means it was not symlinked into /usr/local,
+# because macOS already provides this software and installing another version in
+# parallel can cause all kinds of trouble.
+export PATH="/usr/local/opt/libxml2/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/libxml2/lib"
+export CPPFLAGS="-I/usr/local/opt/libxml2/include"
+export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
 
+# java SDK
 export ANT_HOME=/usr/local/opt/ant
 export MAVEN_HOME=/usr/local/opt/maven
 export GRADLE_HOME=/usr/local/opt/gradle
-#export ANDROID_HOME=/usr/local/opt/android-sdk
-#export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
+
+# android SDK
 #export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+export ANDROID_SDK_ROOT=/Volumes/data/Users/dan/Library/Android/sdk
+export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export ANDROID_NDK_HOME=$HOME/Library/Android/sdk
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-
-
+# General paths
 export PATH=$ANT_HOME/bin:$PATH
 export PATH=$MAVEN_HOME/bin:$PATH
 export PATH=$GRADLE_HOME/bin:$PATH
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$ANDROID_HOME/build-tools/19.1.0:$PATH
-
+#zprof
+export PATH="/usr/local/opt/libxslt/bin:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # read other envs with keys and stuff
 if [ -e $HOME/.ssh/sensible-envs.sh ]; then 
     source $HOME/.ssh/sensible-envs.sh
 fi
+
+
