@@ -311,7 +311,7 @@ if "test ! -d ~/.tmux/plugins/tpm" \
    tmux-plugins/tmux-urlview \
  '
 
-
+set -g @fpp-key 'o' 
 # set -g @plugin 'nhdaly/tmux-better-mouse-mode'
 
 # Lightweight tmux utils for manipulating sessions - https://github.com/tmux-plugins/tmux-sessionist
