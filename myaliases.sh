@@ -92,28 +92,25 @@ function dotfiles_pull {
 
 function dotfiles_update {
    CURRENT=$PWD 
-   $DAY=date "+%H:%M:%S   %d/%m/%y"
+   DAY=date "+%H:%M:%S   %d/%m/%y"
    cd $DOTFILES_ROOT && git add -A && git commit -m "Update $DAY $1" 
    cd $CURRENT
 }
 
 function dotfiles_push {
    CURRENT=$PWD 
-   $DAY=date "+%H:%M:%S   %d/%m/%y"
    cd $DOTFILES_ROOT && git push
    cd $CURRENT
 }
 
 function dotfiles_status {
    CURRENT=$PWD 
-   $DAY=date "+%H:%M:%S   %d/%m/%y"
    cd $DOTFILES_ROOT && git status
    cd $CURRENT
 }
 
 function dotfiles_changes {
    CURRENT=$PWD 
-   $DAY=date "+%H:%M:%S   %d/%m/%y"
    cd $DOTFILES_ROOT && git diff -r 
    cd $CURRENT
 }
