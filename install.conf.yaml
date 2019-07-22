@@ -15,15 +15,20 @@
     ~/.profile: profile
     ~/.bash_profile: bash_profile
     ~/.zprofile: zprofile
+    # fish
+    ~/.config/fish/config.fish: fish/config.fish
+    ~/.config/fish/functions/loadbass.fish: fish/loadbass.fish
+    ~/.config/fish/fishfile: fish/fishfile
 
+    # environment variabels
     ~/.myenvs: myenvs.sh
     ~/.mysshdeploy: mysshdeploy.sh
     ~/.myaliases: myaliases.sh
     #    ~/.warprc: ~/.ssh/warprc
 
 - shell:
-  #- [mkdir -p ~/.rtorrent/session ~/.rtorrent/watch ~/.rtorrent/downloads,
-  #    Creating rtorrent directories]
+#   - [fish fisher,
+    #  installing fish plugins]
   #- [git update-submodules, Installing/updating submodules]
   #- ["git submodule update --init --recursive", "Installing submodules"]
   - ["echo Install vim dependencies with dotfiles_dependecies_install command.", "Install plugins"]

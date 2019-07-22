@@ -23,6 +23,7 @@ case "$OSTYPE" in
 esac
 
 
+DOTFILES_ROOT="$HOME/.dotfiles"
 
 # mac environment reinstall
 function mac_restore_packages {
@@ -36,8 +37,11 @@ function mac_restore_packages {
         echo 'install homebrew as: /usr/bin/ruby -e "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
         return -1
   fi 
-  cd $ZPLUG_ROOT/.. && brew bundle  
+  cd $DOTFILES_ROOT && brew bundle  
 }
+
+
+
 
 function mac_backup_packages {
   if [ "$isOSX" != true  ]; then
@@ -51,9 +55,13 @@ function mac_backup_packages {
         return -1
   fi 
   CURRENT=$PWD 
-  cd $ZPLUG_ROOT/.. && mv Brewfile Brewfile.bak && brew bundle dump
-  echo "Remember to push updates back to repository!"
+  cd $DOTFILES_ROOT && mv Brewfile Brewfile.bak && brew bundle dump
+  echo "Remember to push updates back to repository! ( dotfiles_update && dotfiles_push )"
   cd $CURRENT
+}
+
+function brewbackup {
+  mac_backup_packages;
 }
 
 function mac_update_packages {
@@ -77,27 +85,37 @@ function mac_update_packages {
 
 
 function dotfiles_pull {
-  cd $ZPLUG_ROOT/.. && git pull --rebase
+  CURRENT=$PWD 
+  cd $DOTFILES_ROOT && git pull --rebase
+  cd $CURRENT
 }
 
 function dotfiles_update {
+   CURRENT=$PWD 
    $DAY=date "+%H:%M:%S   %d/%m/%y"
-   cd $ZPLUG_ROOT/.. && git add -A && git commit -m "Update $DAY $1" 
+   cd $DOTFILES_ROOT && git add -A && git commit -m "Update $DAY $1" 
+   cd $CURRENT
 }
 
 function dotfiles_push {
+   CURRENT=$PWD 
    $DAY=date "+%H:%M:%S   %d/%m/%y"
-   cd $ZPLUG_ROOT/.. && git push
+   cd $DOTFILES_ROOT && git push
+   cd $CURRENT
 }
 
 function dotfiles_status {
+   CURRENT=$PWD 
    $DAY=date "+%H:%M:%S   %d/%m/%y"
-   cd $ZPLUG_ROOT/.. && git status
+   cd $DOTFILES_ROOT && git status
+   cd $CURRENT
 }
 
 function dotfiles_changes {
+   CURRENT=$PWD 
    $DAY=date "+%H:%M:%S   %d/%m/%y"
-   cd $ZPLUG_ROOT/.. && git diff -r 
+   cd $DOTFILES_ROOT && git diff -r 
+   cd $CURRENT
 }
 
 function dotfiles_dependecies_install {

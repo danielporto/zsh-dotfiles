@@ -29,6 +29,16 @@ if [ "$isOSX" = true ]; then
     export PATH="/usr/local/opt/python@2/libexec/bin":$PATH
     # Link Homebrew casks in `/Applications` rather than `~/Applications`
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+    # fish shell osx compatible binaries
+    # fix https://stackoverflow.com/questions/10666570/binutils-stat-illegal-option-c
+    # https://techblog.willshouse.com/2013/05/20/brew-install-gnu-stat/
+    export PATH="/usr/local/opt/binutils/bin:$PATH"
+    # export LDFLAGS="-L/usr/local/opt/binutils/lib"
+    # export CPPFLAGS="-I/usr/local/opt/binutils/include"
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    alias stat="gstat"
+
 fi
 
 # for java management
@@ -81,9 +91,14 @@ export PATH=$GRADLE_HOME/bin:$PATH
 export PATH="/usr/local/opt/libxslt/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+
+
+
 # read other envs with keys and stuff
 if [ -e $HOME/.ssh/sensible-envs.sh ]; then 
     source $HOME/.ssh/sensible-envs.sh
 fi
+
+
 
 
