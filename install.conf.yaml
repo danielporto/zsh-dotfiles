@@ -24,7 +24,8 @@
     ~/.myenvs: myenvs.sh
     ~/.mysshdeploy: mysshdeploy.sh
     ~/.myaliases: myaliases.sh
-    #    ~/.warprc: ~/.ssh/warprc
+    ~/.warprc: ~/.ssh/warprc
+    ~/.local/share/wd/warppoints: ~/.ssh/warprc
 
 - shell:
 #   - [fish fisher,
