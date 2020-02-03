@@ -181,8 +181,8 @@ alias facetimekill='sudo killall VDCAssistant'
 #alias rm='trash'
 
 # Always use color output for `ls`
-# alias ls="command ls ${colorflag}"
-alias ls="ls -G"
+#alias ls="command ls ${colorflag}"
+#alias ls="ls -G --color"
 
 # brew ctags default to brew one
 # alias ctags="`brew --prefix`/bin/ctags"
@@ -196,3 +196,4 @@ alias xx='clear'
 alias xxx='exit'
 alias qq='exit'
 alias youtube-dl-pl='youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -f mp4 '
+alias gsd_cluster_vpn='sshuttle -r dporto@cloudtm.ist.utl.pt -e "ssh -i ~/.ssh/id_rsa_inesc_cluster_dporto"  10.100.0.0/24 -D'

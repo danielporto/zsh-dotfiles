@@ -35,3 +35,6 @@
   - ["echo Install vim dependencies with dotfiles_dependecies_install command.", "Install plugins"]
   # - ["~/.vim/plugged/youcompleteme/install.py --clang-completer", "Install vim plugins"]
   # - ["vim +PlugInstall +qall", "Install vim plugins"]
+#   - ["vagrant plugin install vagrant-scp ", "Install vagrant plugins"]
+#   - ["vagrant plugin install vagrant-vbguest", "Install vagrant plugins"]
+  - ["run 'fisher' after installing the fish plugin to install the rest of the plugins", "Installing fisher plugin manager" ]

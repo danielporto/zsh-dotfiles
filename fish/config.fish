@@ -7,3 +7,4 @@ end
 #. ~/.config/fish/functions/loadbass.fish
 loadbass
 
+set -g fish_user_paths "/usr/local/sbin" $fish_user_paths

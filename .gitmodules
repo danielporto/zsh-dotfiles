@@ -7,3 +7,6 @@
 [submodule "tmux"]
 	path = tmux
 	url = https://github.com/gpakosz/.tmux.git
+[submodule "zsh-zimfw"]
+	path = zsh-zimfw
+	url = https://github.com/zimfw/zimfw.git

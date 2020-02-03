@@ -1,5 +1,5 @@
 export GOPATH="$HOME/devel/gocode"
-export PATH=$PATH:$GOPATH/bin
+export PATH="$PATH:$GOPATH/bin"
 
 isOSX=false
 isLinux=false
@@ -33,11 +33,11 @@ if [ "$isOSX" = true ]; then
     # fish shell osx compatible binaries
     # fix https://stackoverflow.com/questions/10666570/binutils-stat-illegal-option-c
     # https://techblog.willshouse.com/2013/05/20/brew-install-gnu-stat/
-    export PATH="/usr/local/opt/binutils/bin:$PATH"
-    # export LDFLAGS="-L/usr/local/opt/binutils/lib"
-    # export CPPFLAGS="-I/usr/local/opt/binutils/include"
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-    alias stat="gstat"
+    #export PATH="/usr/local/opt/binutils/bin:$PATH"
+    #export LDFLAGS="-L/usr/local/opt/binutils/lib"
+    #export CPPFLAGS="-I/usr/local/opt/binutils/include"
+    #export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    #alias stat="gstat"
 
 fi
 
@@ -74,20 +74,19 @@ export CPPFLAGS="-I/usr/local/opt/libxml2/include"
 export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
 
 # java SDK
-export ANT_HOME=/usr/local/opt/ant
-export MAVEN_HOME=/usr/local/opt/maven
-export GRADLE_HOME=/usr/local/opt/gradle
+#export ANT_HOME=/usr/local/opt/ant
+#export MAVEN_HOME=/usr/local/opt/maven
+#export GRADLE_HOME=/usr/local/opt/gradle
 
 # android SDK
 #export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
-export ANDROID_SDK_ROOT=/Volumes/data/Users/dan/Library/Android/sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
 
 # General paths
-export PATH=$ANT_HOME/bin:$PATH
-export PATH=$MAVEN_HOME/bin:$PATH
-export PATH=$GRADLE_HOME/bin:$PATH
-#zprof
+#export PATH=$ANT_HOME/bin:$PATH
+#export PATH=$MAVEN_HOME/bin:$PATH
+#export PATH=$GRADLE_HOME/bin:$PATH
 export PATH="/usr/local/opt/libxslt/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
@@ -99,6 +98,8 @@ if [ -e $HOME/.ssh/sensible-envs.sh ]; then
     source $HOME/.ssh/sensible-envs.sh
 fi
 
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
 
 
