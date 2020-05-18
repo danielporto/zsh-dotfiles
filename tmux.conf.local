@@ -335,8 +335,9 @@ set -g status-interval 1
 
 
 # set default shell
-set-option -g default-shell /usr/local/bin/fish
+# set-option -g default-shell /usr/local/bin/fish
 # set-option -g default-shell /usr/local/bin/bash
+set-option -g default-shell /bin/zsh
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 #run -b '/Volumes/data/Users/dan/.dotfiles/tmux-tpm/plugins/tpm/tpm'
