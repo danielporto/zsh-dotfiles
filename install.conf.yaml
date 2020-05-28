@@ -29,6 +29,7 @@
     #~/.local/share/wd/warppoints: ~/.ssh/warprc
 
 - shell:
+  - ["curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh","Installing zimrc"] 
 #   - [fish fisher,
     #  installing fish plugins]
   #- [git update-submodules, Installing/updating submodules]
