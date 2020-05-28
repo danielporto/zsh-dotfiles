@@ -11,21 +11,22 @@
     ~/.zplug: zplug/
     ~/.zsh: zsh/
     ~/.zshrc: zshrc
+    ~/.zimrc: zimrc
     #~/.hushlogin: hushlogin
     ~/.profile: profile
     ~/.bash_profile: bash_profile
     ~/.zprofile: zprofile
     # fish
-    ~/.config/fish/config.fish: fish/config.fish
-    ~/.config/fish/functions/loadbass.fish: fish/loadbass.fish
-    ~/.config/fish/fishfile: fish/fishfile
+    # ~/.config/fish/config.fish: fish/config.fish
+    #~/.config/fish/functions/loadbass.fish: fish/loadbass.fish
+    #~/.config/fish/fishfile: fish/fishfile
 
     # environment variabels
     ~/.myenvs: myenvs.sh
     ~/.mysshdeploy: mysshdeploy.sh
     ~/.myaliases: myaliases.sh
     ~/.warprc: ~/.ssh/warprc
-    ~/.local/share/wd/warppoints: ~/.ssh/warprc
+    #~/.local/share/wd/warppoints: ~/.ssh/warprc
 
 - shell:
 #   - [fish fisher,
